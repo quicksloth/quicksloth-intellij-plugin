@@ -1,5 +1,6 @@
 package Network;
 
+import Models.RecommendedCodes;
 import Models.RequestCode;
 import com.google.gson.Gson;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -31,15 +32,13 @@ public class Client extends AnAction {
 
                 Gson gson = new Gson();
                 Object request = gson.toJson(rc);
-
                 finalSocket.emit("getCodes", request);
-//                finalSocket.disconnect();
-            }).on("event", args1 -> {
-                System.out.println("EVENT");
-            }).on(Socket.EVENT_DISCONNECT, args12 -> {})
-            .on("recommendationCodes", args -> {
-//                JSONObject obj = (JSONObject)args[0];
+            }).on(Socket.EVENT_DISCONNECT, args12 -> {
+                System.out.println("DISCONNECT SOCKET");
+            }).on("recommendationCodes", args -> {
                 System.out.println("receive call");
+                Gson gson = new Gson();
+                RecommendedCodes resultCodes  = gson.fromJson((String) args[0], RecommendedCodes.class);
                 finalSocket.disconnect();
             });
 
