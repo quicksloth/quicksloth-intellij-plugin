@@ -20,6 +20,7 @@ public class Client extends AnAction {
     public void actionPerformed(AnActionEvent e) {
         System.out.println("GOING TO CONNECT");
         Socket socket = null;
+//        TODO: temporary.. improve all this stuff
         try {
             socket = IO.socket("http://0.0.0.0:6060/code-recommendations");
             Socket finalSocket = socket;
