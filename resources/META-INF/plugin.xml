@@ -28,8 +28,13 @@
     <!-- Add your extensions here -->
   </extensions>
 
+
   <actions>
-    <!-- Add your actions here -->
+    <action id="test" class="Network.Client" text="WebSocket"
+            description="try to import and connect">
+      <add-to-group group-id="ToolsMenu" anchor="first"/>
+      <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl R W"/>
+    </action>
   </actions>
 
 </idea-plugin>
