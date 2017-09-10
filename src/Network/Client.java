@@ -17,12 +17,12 @@ public class Client extends AnAction {
         System.out.print("GOING TO CONNECT");
         Socket socket = null;
         try {
-            socket = IO.socket("http://http://0.0.0.0:6060");
+            socket = IO.socket("http://0.0.0.0:6060/code-recommendations");
             Socket finalSocket = socket;
             socket.on(Socket.EVENT_CONNECT, args13 -> {
                 System.out.print("CONECTADO");
                 finalSocket.emit("foo", "hi");
-                finalSocket.disconnect();
+//                finalSocket.disconnect();
             }).on("event", args1 -> {
                 System.out.print("EVENT");
             }).on(Socket.EVENT_DISCONNECT, args12 -> {});
