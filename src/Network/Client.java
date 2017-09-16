@@ -37,7 +37,8 @@ public class Client extends AnAction {
             }).on(Socket.EVENT_DISCONNECT, args12 -> {
                 System.out.println("DISCONNECT SOCKET");
             }).on("recommendationCodes", args -> {
-                System.out.println("receive call");
+                System.out.println("receive call recommendationCodes");
+                System.out.println((String) args[0]);
                 Gson gson = new Gson();
                 RecommendedCodes resultCodes  = gson.fromJson((String) args[0], RecommendedCodes.class);
                 finalSocket.disconnect();
