@@ -22,7 +22,7 @@ public class Client extends AnAction {
         Socket socket = null;
 //        TODO: temporary.. improve all this stuff
         try {
-            socket = IO.socket("http://0.0.0.0:6060/code-recommendations");
+            socket = IO.socket("http://0.0.0.0:10443/code-recommendations");
             Socket finalSocket = socket;
             socket.on(Socket.EVENT_CONNECT, args13 -> {
                 System.out.println("CONECTADO");
