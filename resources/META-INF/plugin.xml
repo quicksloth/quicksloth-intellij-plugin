@@ -20,9 +20,10 @@
 
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
        on how to target different products -->
-  <!-- uncomment to enable plugin in all products
+  <!--&lt;!&ndash; uncomment to enable plugin in all products-->
   <depends>com.intellij.modules.lang</depends>
-  -->
+  <depends optional="true">com.intellij.modules.python</depends>
+  <!--&ndash;&gt;-->
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
@@ -30,10 +31,13 @@
 
 
   <actions>
-    <action id="test" class="Network.Client" text="WebSocket"
+    <action id="webSocket" class="Network.NetworkService" text="WebSocket"
             description="try to import and connect">
       <add-to-group group-id="ToolsMenu" anchor="first"/>
-      <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl R W"/>
+    </action>
+    <action id="test" class="Controllers.Utils.CodeExtractorCode" text="CodeExtractorCode"
+            description="try to import and connect">
+      <add-to-group group-id="ToolsMenu" anchor="first"/>
     </action>
   </actions>
 

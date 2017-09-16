@@ -12,27 +12,31 @@ import java.net.URISyntaxException;
 import java.util.Collections;
 
 /**
- * Created by pamelaiupipeixinho on 10/09/17.
+ * NetworkService is responsible to do
+ * connection (websocket) with recommendation server
  */
-public class Client extends AnAction {
+public class NetworkService extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent e) {
+        RequestCode rc = new RequestCode("read file",
+                "Python",
+                Collections.singletonList("os"),
+                Collections.singletonList("open file to read file"));
+        getCodeRecommendation(rc);
+    }
+
+    private void getCodeRecommendation(RequestCode requestCode) {
+//        TODO: temporary.. improve all this stuff
         System.out.println("GOING TO CONNECT");
         Socket socket = null;
-//        TODO: temporary.. improve all this stuff
         try {
             socket = IO.socket("http://0.0.0.0:10443/code-recommendations");
             Socket finalSocket = socket;
             socket.on(Socket.EVENT_CONNECT, args13 -> {
                 System.out.println("CONECTADO");
-                RequestCode rc = new RequestCode("read file",
-                        "Python",
-                        Collections.singletonList("os"),
-                        Collections.singletonList("open file to read file"));
-
                 Gson gson = new Gson();
-                Object request = gson.toJson(rc);
+                Object request = gson.toJson(requestCode);
                 finalSocket.emit("getCodes", request);
             }).on(Socket.EVENT_DISCONNECT, args12 -> {
                 System.out.println("DISCONNECT SOCKET");
