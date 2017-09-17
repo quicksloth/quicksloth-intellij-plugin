@@ -4,6 +4,9 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.psi.PsiDocumentManager
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiElementVisitor
+import com.intellij.psi.PsiRecursiveElementWalkingVisitor
 
 /**
  * Created by pamelaiupipeixinho on 16/09/17.
@@ -26,6 +29,17 @@ class CodeExtractorCode: AnAction() {
 
         val fileType = psiFile.fileType
         print(fileType)
+
+
+        psiFile.accept(object: PsiElementVisitor() {
+            //        psiFile.accept(object: PSIELEm() {
+            override fun visitElement(element: PsiElement?) {
+                print(element)
+//                if (element instanceof )
+                super.visitElement(element)
+//            }
+//        })
+        })
 
 //        psiFile.accept(PsiRecursiveElementWalkingVisitor)
 //        psiFile.accept(new PsiRecursiveElementWalkingVisitor(){
