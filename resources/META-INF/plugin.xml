@@ -27,8 +27,8 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
+    <toolWindow id="QuickSloth" anchor="right" factoryClass="View.ToolWindow"/>
   </extensions>
-
 
   <actions>
     <action id="webSocket" class="Network.NetworkService" text="WebSocket"
