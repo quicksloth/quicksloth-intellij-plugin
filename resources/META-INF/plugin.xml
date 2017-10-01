@@ -22,7 +22,7 @@
        on how to target different products -->
   <!--&lt;!&ndash; uncomment to enable plugin in all products-->
   <depends>com.intellij.modules.lang</depends>
-  <depends optional="true">com.intellij.modules.python</depends>
+  <depends>com.intellij.modules.python</depends>
   <!--&ndash;&gt;-->
 
   <extensions defaultExtensionNs="com.intellij">
@@ -35,7 +35,7 @@
             description="try to import and connect">
       <add-to-group group-id="ToolsMenu" anchor="first"/>
     </action>
-    <action id="test" class="Controllers.Utils.CodeExtractorCode" text="CodeExtractorCode"
+    <action id="test" class="Controllers.Utils.CodeExtractor" text="CodeExtractor"
             description="try to import and connect">
       <add-to-group group-id="ToolsMenu" anchor="first"/>
     </action>

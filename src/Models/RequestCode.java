@@ -1,6 +1,7 @@
 package Models;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -17,6 +18,13 @@ public class RequestCode implements Serializable {
         this.language = language;
         this.libs = libs;
         this.comments = comments;
+    }
+
+    public RequestCode() {
+        this.query = "";
+        this.language = "";
+        this.libs = Collections.emptyList();
+        this.comments = Collections.emptyList();
     }
 
     public String getQuery() {
