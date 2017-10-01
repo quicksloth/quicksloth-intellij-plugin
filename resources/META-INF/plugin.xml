@@ -35,7 +35,7 @@
             description="try to import and connect">
       <add-to-group group-id="ToolsMenu" anchor="first"/>
     </action>
-    <action id="test" class="Controllers.Utils.CodeExtractorCode" text="CodeExtractorCode"
+    <action id="test" class="Controllers.Utils.CodeExtractor" text="CodeExtractor"
             description="try to import and connect">
       <add-to-group group-id="ToolsMenu" anchor="first"/>
     </action>

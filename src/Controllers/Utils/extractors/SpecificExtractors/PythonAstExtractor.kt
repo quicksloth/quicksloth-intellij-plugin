@@ -14,7 +14,7 @@ class PythonAstExtractor: AstExtractor() {
         val elementType = element.node?.elementType.toString()
 
         if (element is PsiComment || elementType.contains("DOCSTRING")) {
-            comments.add(element.text.filter { !invalidChars.contains(it) }.trimMargin())
+            comments.add(element.text.filter { !invalidChars.contains(it) }.trim())
         }
 
         if (elementType.contains("IMPORT_STATEMENT")) {

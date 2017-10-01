@@ -12,7 +12,7 @@ import com.intellij.psi.PsiRecursiveElementWalkingVisitor
 /**
  * Created by pamelaiupipeixinho on 16/09/17.
  */
-class CodeExtractorCode: AnAction() {
+class CodeExtractor : AnAction() {
     override fun actionPerformed(event: AnActionEvent) {
         val requestCode = RequestCode()
         extractAST(event, requestCode)
