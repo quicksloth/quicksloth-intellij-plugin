@@ -41,16 +41,28 @@ class CodeExtractorCode: AnAction() {
 
         psiFile.accept(object : PsiRecursiveElementWalkingVisitor() {
             override fun visitElement(element: PsiElement) {
-//               WORKING
-                if (element is PsiComment) {
+
+                println(element.node?.elementType.toString() + " - " + element.text)
+
+                if (element is PsiComment || element.node?.elementType.toString().contains("DOCSTRING")) {
                     println("*** COMMENT" + element.text)
                     comments.add(element.text)
                 }
 
-                if (element.node?.elementType.toString().contains( "IMPORT_ELEMENT")) {
-                    println("*** IMPORT" + element.text)
-                    libs.add(element.text)
-//                    requestCode.libs.add(element?.text)
+//                if (element.node?.elementType.toString().contains( "IMPORT_ELEMENT")) {
+//                    println("*** IMPORT" + element.text)
+//                    libs.add(element.text)
+////                    requestCode.libs.add(element?.text)
+//                }
+//
+//
+                if (element.node?.elementType.toString().contains("IMPORT_STATEMENT")) {
+                    element.children.forEach { importElement ->
+                        if (importElement.node?.elementType.toString().contains("IMPORT_ELEMENT")) {
+                            println("*** IMPORT" + element.text)
+                            libs.add(element.text)
+                        }
+                    }
                 }
 
                 println(comments)
