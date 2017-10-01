@@ -1,12 +1,10 @@
 package Controllers.Utils
 
+import Models.RequestCode
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.fileEditor.FileEditorManager
-import com.intellij.psi.PsiDocumentManager
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiElementVisitor
-import com.intellij.psi.PsiRecursiveElementWalkingVisitor
+import com.intellij.psi.*
 
 /**
  * Created by pamelaiupipeixinho on 16/09/17.
@@ -14,8 +12,12 @@ import com.intellij.psi.PsiRecursiveElementWalkingVisitor
 class CodeExtractorCode: AnAction() {
 
     override fun actionPerformed(event: AnActionEvent) {
-        print("TESTE")
-        print("TESTE2")
+        val requestCode = RequestCode()
+        extractAST(event, requestCode)
+
+    }
+
+    private fun extractAST(event: AnActionEvent, requestCode: RequestCode) {
         val project = event.project ?: return
 
         val projectName = project.name
@@ -25,48 +27,27 @@ class CodeExtractorCode: AnAction() {
         val psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document) ?: return
 
         val language = psiFile.language
-        print(language)
+        println(language)
+
+        requestCode.comments = listOf("os", "test")
 
         val fileType = psiFile.fileType
-        print(fileType)
+        println(fileType)
 
-
-        psiFile.accept(object: PsiElementVisitor() {
-            //        psiFile.accept(object: PSIELEm() {
+        psiFile.accept(object : PsiRecursiveElementWalkingVisitor() {
             override fun visitElement(element: PsiElement?) {
-                print(element)
-//                if (element instanceof )
+                println(element)
+                    if (element is PsiComment) {
+                        println(element.text)
+//                        requestCode.comments.add()
+                    } else if (element is PsiImportList) {
+                        println(element.allImportStatements)
+                        element.allImportStatements.forEach { importElement ->
+                            println(importElement)
+                        }
+                    }
                 super.visitElement(element)
-//            }
-//        })
+            }
         })
-
-//        psiFile.accept(PsiRecursiveElementWalkingVisitor)
-//        psiFile.accept(new PsiRecursiveElementWalkingVisitor(){
-//            override fun visitElement(element: PsiElement?) {
-//
-//                //				----- JAVA ----
-//                if (element is PsiMethod) {
-//                    println("psi method = " + element.nameIdentifier!!.toString())
-//                } else if (element is PsiImportList) {
-//                    for (importStatement in element.importStatements) {
-//                        println("psi PsiImportList = " + importStatement.qualifiedName!!)
-//                    }
-//                } else if (element is PsiDocComment) {
-//                    println("psi psiDocComment Owner = " + element.owner!!.name!!)
-//                    println("psi psiDocComment = " + element.text)
-//                } else if (element is PsiTypeElement) {
-//                    println("psi psiTypeElement  = " + element.type.toString())
-//                } else {
-//                    //					System.out.println("psi element = " + element.toString());
-//                }
-//
-//                //				----- Kotlin ----
-//
-//                //				if (element instanceof )
-//
-//
-//                super.visitElement(element)
-//            }
     }
 }

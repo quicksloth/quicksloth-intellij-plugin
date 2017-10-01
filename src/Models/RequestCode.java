@@ -19,6 +19,9 @@ public class RequestCode implements Serializable {
         this.comments = comments;
     }
 
+    public RequestCode() {
+    }
+
     public String getQuery() {
         return query;
     }
