@@ -30,6 +30,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 		searchButton.addActionListener(e -> {
 			System.out.println("queryField " + queryField.getText());
 		});
+
 		queryField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
