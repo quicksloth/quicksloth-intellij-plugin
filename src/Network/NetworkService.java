@@ -26,7 +26,7 @@ public class NetworkService extends AnAction {
         getCodeRecommendation(rc);
     }
 
-    private void getCodeRecommendation(RequestCode requestCode) {
+    static public void getCodeRecommendation(RequestCode requestCode) {
 //        TODO: temporary.. improve all this stuff
         System.out.println("GOING TO CONNECT");
         Socket socket = null;
@@ -45,6 +45,7 @@ public class NetworkService extends AnAction {
                 System.out.println((String) args[0]);
                 Gson gson = new Gson();
                 RecommendedCodes resultCodes  = gson.fromJson((String) args[0], RecommendedCodes.class);
+//                return resultCodes;
                 finalSocket.disconnect();
             });
 

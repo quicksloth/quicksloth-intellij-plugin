@@ -24,7 +24,7 @@
             <properties>
               <doubleBuffered value="true"/>
               <enabled value="true"/>
-              <icon value="View/images/quickslothlogo-v2.1.png"/>
+              <icon value="images/quickslothlogo-v2.1.png"/>
               <iconTextGap value="4"/>
               <text value=""/>
               <toolTipText value="&quot;The quickest way to be a sloth (coding)&quot;"/>
@@ -45,17 +45,18 @@
                   </grid>
                 </constraints>
                 <properties>
+                  <autoscrolls value="false"/>
                   <background color="-2171170"/>
                   <caretColor color="-11645362"/>
                   <doubleBuffered value="true"/>
                   <dropMode value="INSERT"/>
                   <editable value="true"/>
                   <enabled value="true"/>
-                  <foreground color="-3507712"/>
+                  <foreground color="-13684945"/>
                   <inheritsPopupMenu value="false"/>
                   <selectionColor color="-3507712"/>
                   <text value=""/>
-                  <toolTipText value="Insert Seach text"/>
+                  <toolTipText value="Insert seach query"/>
                 </properties>
               </component>
               <component id="464a4" class="javax.swing.JButton" binding="searchButton">

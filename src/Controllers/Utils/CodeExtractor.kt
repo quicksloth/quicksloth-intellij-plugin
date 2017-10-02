@@ -1,10 +1,11 @@
+@file:JvmName("CodeExtractor")
+
 package Controllers.Utils
 
 import Controllers.Utils.extractors.PsiLanguageExtractor
 import Models.RequestCode
-import com.intellij.openapi.actionSystem.AnAction
-import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.fileEditor.FileEditorManager
+import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiRecursiveElementWalkingVisitor
@@ -12,18 +13,11 @@ import com.intellij.psi.PsiRecursiveElementWalkingVisitor
 /**
  * Created by pamelaiupipeixinho on 16/09/17.
  */
-class CodeExtractor : AnAction() {
-    override fun actionPerformed(event: AnActionEvent) {
-        val requestCode = RequestCode()
-        extractAST(event, requestCode)
-
-    }
-
-    private fun extractAST(event: AnActionEvent, requestCode: RequestCode) {
-        val project = event.project ?: return
-        val editor = FileEditorManager.getInstance(project).selectedTextEditor ?: return
+class CodeExtractor {
+    fun extractAST(project: Project, requestCode: RequestCode): RequestCode? {
+        val editor = FileEditorManager.getInstance(project).selectedTextEditor ?: return null
         val document = editor.document
-        val psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document) ?: return
+        val psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document) ?: return null
 
         val languageName = psiFile.language.toString()
         val psiLanguageExtractor = PsiLanguageExtractor.getLanguageExtractor(languageName)
@@ -47,8 +41,6 @@ class CodeExtractor : AnAction() {
         requestCode.comments = comments
         requestCode.libs = libs.toList()
 
-        println(requestCode.language)
-        println(requestCode.comments)
-        println(requestCode.libs)
+        return requestCode
     }
 }
