@@ -20,6 +20,13 @@ public class RequestCode implements Serializable {
         this.comments = comments;
     }
 
+    public RequestCode(String query) {
+        this.query = query;
+        this.language = "";
+        this.libs = Collections.emptyList();
+        this.comments = Collections.emptyList();
+    }
+
     public RequestCode() {
         this.query = "";
         this.language = "";

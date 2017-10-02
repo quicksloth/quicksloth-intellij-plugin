@@ -27,15 +27,18 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
+    <toolWindow id="QuickSloth"
+                anchor="right"
+                factoryClass="View.MainToolWindowFactory"
+                icon="/images/icon_v2.png"/>
   </extensions>
-
 
   <actions>
     <action id="webSocket" class="Network.NetworkService" text="WebSocket"
             description="try to import and connect">
       <add-to-group group-id="ToolsMenu" anchor="first"/>
     </action>
-    <action id="test" class="Controllers.Utils.CodeExtractor" text="CodeExtractor"
+    <action id="CodeExtraction" class="Controllers.Utils.CodeExtractorAction" text="CodeExtractor"
             description="try to import and connect">
       <add-to-group group-id="ToolsMenu" anchor="first"/>
     </action>
