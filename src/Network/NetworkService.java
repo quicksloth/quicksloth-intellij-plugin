@@ -31,7 +31,7 @@ public class NetworkService extends AnAction {
         System.out.println("GOING TO CONNECT");
         Socket socket = null;
         try {
-            socket = IO.socket("http://0.0.0.0:10443/code-recommendations");
+            socket = IO.socket("http://apollo.gwachs.com:10443/code-recommendations");
             Socket finalSocket = socket;
             socket.on(Socket.EVENT_CONNECT, args13 -> {
                 System.out.println("CONECTADO");
