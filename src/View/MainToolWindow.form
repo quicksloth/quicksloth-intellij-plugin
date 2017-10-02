@@ -45,11 +45,13 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <background color="-3023394"/>
-                  <caretColor color="-11119018"/>
+                  <background color="-2171170"/>
+                  <caretColor color="-11645362"/>
+                  <doubleBuffered value="true"/>
                   <dropMode value="INSERT"/>
                   <editable value="true"/>
                   <enabled value="true"/>
+                  <foreground color="-3507712"/>
                   <inheritsPopupMenu value="false"/>
                   <selectionColor color="-3507712"/>
                   <text value=""/>
