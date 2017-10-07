@@ -27,7 +27,6 @@ public class NetworkService extends AnAction {
     }
 
     static public void getCodeRecommendation(RequestCode requestCode) {
-//        TODO: temporary.. improve all this stuff
         System.out.println("GOING TO CONNECT");
         Socket socket = null;
         try {

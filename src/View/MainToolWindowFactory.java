@@ -3,14 +3,17 @@ package View;
 import Controllers.Utils.CodeExtractor;
 import Models.RequestCode;
 import Network.NetworkService;
+import View.Components.StripedProgressBarUI;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
+import com.intellij.ui.JBColor;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import com.intellij.ui.content.ContentFactory.SERVICE;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -22,18 +25,21 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private JPanel root;
     private JTextField queryField;
     private JButton searchButton;
-    private JTree code;
     private JPanel maincontent;
     private JPanel header;
     private JLabel title;
+    private JProgressBar loading;
     private ToolWindow myToolWindow;
 
     public MainToolWindowFactory() {
+        Color primaryColor = new JBColor(new Color(232, 111, 86), new Color(247, 76, 34));
+        this.loading.setForeground(primaryColor);
         System.out.println("MainToolWindowFactory");
     }
 
     private void searchPerformed(Project project) {
         System.out.println("queryField " + queryField.getText());
+        this.startLoading();
         RequestCode requestCode = new RequestCode(queryField.getText());
 
         if (project != null) {
@@ -49,16 +55,37 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         }
     }
 
+    private void startLoading() {
+        this.loading.setVisible(true);
+        this.searchButton.disable();
+        this.queryField.disable();
+//        class MyWorker extends SwingWorker {
+//            protected String doInBackground() {
+//                // Do my downloading code
+//                return "Done.";
+//            }
+//            protected void done() {
+//                loading.setVisible(false);
+//            }
+//        }
+//        new MyWorker().execute();
+    }
+
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         System.out.println("createToolWindowContent");
         System.out.println(toolWindow.isActive());
+//      TODO: extract to functions
 
-        this.myToolWindow = toolWindow;
-        ContentFactory contentFactory = SERVICE.getInstance();
-        Content content = contentFactory.createContent(root, "", false);
-        toolWindow.getContentManager().addContent(content);
 
+        this.loading.setUI(new StripedProgressBarUI(false, true));
+        toolWindowSetup(toolWindow);
+
+//      CTAs SETUP
+        setupCTAs(project);
+    }
+
+    private void setupCTAs(@NotNull final Project project) {
         searchButton.addActionListener(e -> searchPerformed(project));
 
         queryField.addKeyListener(new KeyAdapter() {
@@ -71,5 +98,12 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
                 }
             }
         });
+    }
+
+    private void toolWindowSetup(@NotNull ToolWindow toolWindow) {
+        this.myToolWindow = toolWindow;
+        ContentFactory contentFactory = SERVICE.getInstance();
+        Content content = contentFactory.createContent(root, "", false);
+        toolWindow.getContentManager().addContent(content);
     }
 }
