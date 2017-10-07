@@ -30,9 +30,10 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private JLabel title;
     private JProgressBar loading;
     private ToolWindow myToolWindow;
-    private Color primaryColor = new JBColor(new Color(232, 111, 86), new Color(247, 76, 34));
 
     public MainToolWindowFactory() {
+        Color primaryColor = new JBColor(new Color(232, 111, 86), new Color(247, 76, 34));
+        this.loading.setForeground(primaryColor);
         System.out.println("MainToolWindowFactory");
     }
 
@@ -77,7 +78,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 //      TODO: extract to functions
 
 
-        this.loading.setForeground(primaryColor);
         this.loading.setUI(new StripedProgressBarUI(false, true));
         toolWindowSetup(toolWindow);
 
