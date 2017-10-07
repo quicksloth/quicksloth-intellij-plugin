@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="View.MainToolWindowFactory">
   <grid id="27dc6" binding="root" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="261" y="58" width="366" height="671"/>
+      <xy x="335" y="58" width="292" height="671"/>
     </constraints>
     <properties>
       <opaque value="true"/>
@@ -71,34 +71,23 @@
           </component>
         </children>
       </grid>
-      <grid id="11ea7" binding="maincontent" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
+      <grid id="11ea7" binding="maincontent" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="16" left="8" bottom="0" right="8"/>
         <constraints border-constraint="Center"/>
         <properties/>
         <border type="none"/>
         <children>
-          <component id="bec98" class="javax.swing.JTree" binding="code">
+          <component id="7f004" class="javax.swing.JProgressBar" binding="loading">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="50"/>
-              </grid>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <autoscrolls value="true"/>
-              <dragEnabled value="true"/>
-              <largeModel value="false"/>
-              <name value="testing"/>
-              <toolTipText value="blablabla"/>
-              <visible value="false"/>
+              <stringPainted value="false"/>
             </properties>
-            <clientProperties>
-              <JTree.lineStyle class="java.lang.String" value=""/>
-              <html.disable class="java.lang.Boolean" value="false"/>
-            </clientProperties>
           </component>
-          <vspacer id="68a65">
+          <vspacer id="d5295">
             <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
             </constraints>
           </vspacer>
         </children>
