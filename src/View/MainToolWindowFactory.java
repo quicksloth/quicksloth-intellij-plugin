@@ -3,7 +3,6 @@ package View;
 import Controllers.Utils.CodeExtractor;
 import Models.RequestCode;
 import Network.NetworkService;
-import View.Components.ProgressCircleUI;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.content.Content;
@@ -12,7 +11,6 @@ import com.intellij.ui.content.ContentFactory.SERVICE;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -53,29 +51,39 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     private void startLoading() {
-        this.loading.setIndeterminate(true);
+        loading.setVisible(true);
+        loading.setIndeterminate(true);
+
+//        class MyWorker extends SwingWorker {
+//            protected String doInBackground() {
+//                // Do my downloading code
+//                return "Done.";
+//            }
+//            protected void done() {
+//                loading.setVisible(false);
+//            }
+//        }
+//        new MyWorker().execute();
     }
 
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         System.out.println("createToolWindowContent");
         System.out.println(toolWindow.isActive());
+//      TODO: extract to functions
 
-//      TOOLWINDOW SETUP
-        this.myToolWindow = toolWindow;
-        ContentFactory contentFactory = SERVICE.getInstance();
-        Content content = contentFactory.createContent(root, "", false);
-        toolWindow.getContentManager().addContent(content);
+        toolWindowSetup(toolWindow);
 
 //      LOADING SETUP
-        this.loading.setUI(new ProgressCircleUI());
-        this.loading.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
-        this.loading.setStringPainted(true);
-        this.loading.setFont(this.loading.getFont().deriveFont(24f));
-        this.loading.setForeground(Color.ORANGE);
+//        this.loading.setUI(new ProgressCircleUI());
+        this.loading.setVisible(false);
 
 
 //      CTAs SETUP
+        setupCTAs(project);
+    }
+
+    private void setupCTAs(@NotNull final Project project) {
         searchButton.addActionListener(e -> searchPerformed(project));
 
         queryField.addKeyListener(new KeyAdapter() {
@@ -88,5 +96,12 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
                 }
             }
         });
+    }
+
+    private void toolWindowSetup(@NotNull ToolWindow toolWindow) {
+        this.myToolWindow = toolWindow;
+        ContentFactory contentFactory = SERVICE.getInstance();
+        Content content = contentFactory.createContent(root, "", false);
+        toolWindow.getContentManager().addContent(content);
     }
 }

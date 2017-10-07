@@ -27,11 +27,10 @@ public class NetworkService extends AnAction {
     }
 
     static public void getCodeRecommendation(RequestCode requestCode) {
-//        TODO: temporary.. improve all this stuff
         System.out.println("GOING TO CONNECT");
         Socket socket = null;
         try {
-            socket = IO.socket("http://apollo.gwachs.com:10443/code-recommendations");
+            socket = IO.socket("http://0.0.0.0:10443/code-recommendations");
             Socket finalSocket = socket;
             socket.on(Socket.EVENT_CONNECT, args13 -> {
                 System.out.println("CONECTADO");
