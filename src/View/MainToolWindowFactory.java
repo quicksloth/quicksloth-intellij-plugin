@@ -3,14 +3,17 @@ package View;
 import Controllers.Utils.CodeExtractor;
 import Models.RequestCode;
 import Network.NetworkService;
+import View.Components.StripedProgressBarUI;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
+import com.intellij.ui.JBColor;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import com.intellij.ui.content.ContentFactory.SERVICE;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -27,6 +30,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private JLabel title;
     private JProgressBar loading;
     private ToolWindow myToolWindow;
+    private Color primaryColor = new JBColor(new Color(232, 111, 86), new Color(247, 76, 34));
 
     public MainToolWindowFactory() {
         System.out.println("MainToolWindowFactory");
@@ -51,9 +55,9 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     private void startLoading() {
-        loading.setVisible(true);
-        loading.setIndeterminate(true);
-
+        this.loading.setVisible(true);
+        this.searchButton.disable();
+        this.queryField.disable();
 //        class MyWorker extends SwingWorker {
 //            protected String doInBackground() {
 //                // Do my downloading code
@@ -72,12 +76,10 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         System.out.println(toolWindow.isActive());
 //      TODO: extract to functions
 
+
+        this.loading.setForeground(primaryColor);
+        this.loading.setUI(new StripedProgressBarUI(false, true));
         toolWindowSetup(toolWindow);
-
-//      LOADING SETUP
-//        this.loading.setUI(new ProgressCircleUI());
-        this.loading.setVisible(false);
-
 
 //      CTAs SETUP
         setupCTAs(project);

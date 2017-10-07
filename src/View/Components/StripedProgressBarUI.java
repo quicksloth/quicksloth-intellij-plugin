@@ -8,8 +8,9 @@ import java.awt.geom.GeneralPath;
 
 /**
  * Created by pamelaiupipeixinho on 07/10/17.
+ * referece: @link http://java-swing-tips.blogspot.com.br/2015/08/change-indeterminate-jprogressbar.html
  */
-class StripedProgressBarUI extends BasicProgressBarUI {
+public class StripedProgressBarUI extends BasicProgressBarUI {
     private final boolean dir;
     private final boolean slope;
     public StripedProgressBarUI(boolean dir, boolean slope) {
