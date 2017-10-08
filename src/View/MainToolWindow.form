@@ -95,7 +95,7 @@
             </constraints>
             <properties>
               <opaque value="true"/>
-              <visible value="true"/>
+              <visible value="false"/>
             </properties>
             <border type="none" title="Results"/>
             <children>

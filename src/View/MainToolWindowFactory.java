@@ -61,39 +61,39 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     private void startLoading() {
+        this.resultsArea.setVisible(false);
         this.loading.setVisible(true);
         this.searchButton.disable();
         this.queryField.disable();
 
-//        try {
-//            Thread.sleep(6000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        class MyWorker extends SwingWorker {
+            protected String doInBackground() {
+                try {
+                    Thread.sleep(600);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
-        JPanel newPanel = getPanel();
-        JPanel newPanel2 = getPanel();
-        resultsArea.setLayout(new BoxLayout(resultsArea, BoxLayout.Y_AXIS));
-        resultsArea.add(newPanel);
-        resultsArea.add(newPanel2);
-        resultsArea.setVisible(true);
-        resultsArea.revalidate();
-        resultsArea.repaint();
-        this.loading.setVisible(false);
-        this.searchButton.enable();
-        this.queryField.enable();
+                JPanel newPanel = getPanel();
+                JPanel newPanel2 = getPanel();
+                resultsArea.setLayout(new BoxLayout(resultsArea, BoxLayout.Y_AXIS));
+                resultsArea.add(newPanel);
+                resultsArea.add(newPanel2);
+                resultsArea.setVisible(true);
+                resultsArea.revalidate();
+                resultsArea.repaint();
+                loading.setVisible(false);
+                searchButton.enable();
+                queryField.enable();
 
-//        this.loading.setVisible(false);
-//        class MyWorker extends SwingWorker {
-//            protected String doInBackground() {
-//                // Do my downloading code
-//                return "Done.";
-//            }
-//            protected void done() {
-//                loading.setVisible(false);
-//            }
-//        }
-//        new MyWorker().execute();
+                return "Done.";
+            }
+            protected void done() {
+                loading.setVisible(false);
+            }
+        }
+
+        new MyWorker().execute();
     }
 
     private JPanel getPanel() {
