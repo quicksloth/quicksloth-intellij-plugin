@@ -76,12 +76,30 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
                 JPanel newPanel = getPanel();
                 JPanel newPanel2 = getPanel();
+                JPanel newPanel3 = getPanel();
+                JPanel newPanel4 = getPanel();
+                JPanel newPanel5 = getPanel();
+
                 resultsArea.setLayout(new BoxLayout(resultsArea, BoxLayout.Y_AXIS));
+
+//                JPanel codeResults = new JPanel();
+//                codeResults.setBounds(resultsArea.getBounds());
+//                codeResults.add(newPanel);
+//                codeResults.add(newPanel2);
+//                codeResults.add(newPanel3);
+//                codeResults.add(newPanel4);
+//                resultsArea.add(codeResults);
+
                 resultsArea.add(newPanel);
                 resultsArea.add(newPanel2);
+                resultsArea.add(newPanel3);
+                resultsArea.add(newPanel4);
+                resultsArea.add(newPanel5);
+
                 resultsArea.setVisible(true);
                 resultsArea.revalidate();
                 resultsArea.repaint();
+
                 loading.setVisible(false);
                 searchButton.enable();
                 queryField.enable();
@@ -109,7 +127,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     private JPanel addCodeLines(JPanel panel) {
-        for (Integer i = 0 ; i < 6; i++) {
+        for (Integer i = 0 ; i < 5; i++) {
             JCheckBox newCB = new JCheckBox();
             newCB.setLabel("Check check " + i.toString());
             newCB.setActionCommand(i.toString());
@@ -122,22 +140,13 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         System.out.println("createToolWindowContent");
         System.out.println(toolWindow.isActive());
-//      TODO: extract to functions
-
 
         this.loading.setUI(new StripedProgressBarUI(false, true));
         toolWindowSetup(toolWindow);
 
-//      CTAs SETUP
         setupCTAs(project);
 
         this.explain.setBackground(new Color(255, 255, 255, 0));
-//        JScrollPane scrollPane = new JBScrollPane(mainContent,
-//                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-//                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-//        mainContent.add(scrollPane);
-//        mainContent.revalidate();
-//        mainContent.repaint();
     }
 
     private void setupCTAs(@NotNull final Project project) {
