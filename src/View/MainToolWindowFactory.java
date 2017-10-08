@@ -26,6 +26,7 @@ import java.awt.event.KeyEvent;
  */
 public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindowFactory {
 
+    static public String ID = "QuickSloth";
     private JPanel root;
     private JTextField queryField;
     private JButton searchButton;
@@ -42,7 +43,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     public MainToolWindowFactory() {
         Color primaryColor = new JBColor(new Color(232, 111, 86), new Color(247, 76, 34));
         this.loading.setForeground(primaryColor);
-        this.myToolWindow.hide(null);
         System.out.println("MainToolWindowFactory");
     }
 
@@ -152,8 +152,13 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         });
     }
 
+    public void showToolWindow() {
+        this.myToolWindow.show(null);
+    }
+
     private void toolWindowSetup(@NotNull ToolWindow toolWindow) {
         this.myToolWindow = toolWindow;
+        this.myToolWindow.hide(null);
         ContentFactory contentFactory = SERVICE.getInstance();
         Content content = contentFactory.createContent(root, "", false);
         toolWindow.getContentManager().addContent(content);

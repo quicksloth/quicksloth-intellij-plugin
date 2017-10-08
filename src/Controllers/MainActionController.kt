@@ -4,6 +4,7 @@ import View.MainToolWindowFactory
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.ui.Messages
+import com.intellij.openapi.wm.ToolWindowAnchor
 import com.intellij.openapi.wm.ToolWindowManager
 
 /**
@@ -20,15 +21,15 @@ class MainactionController : AnAction() {
                 Messages.getQuestionIcon())
 
 //        println(ToolWindowManager.getInstance(project).getActiveToolWindowId())
-        val toolWindow = ToolWindowManager.getInstance(project).getToolWindow("QuickSloth")
-
         val factory =  MainToolWindowFactory();
-//        val toolWindow = ToolWindowManager.getInstance(project).registerToolWindow("QuickSloth2",
-//                true, ToolWindowAnchor.RIGHT, project, true);
+        ToolWindowManager.getInstance(project).unregisterToolWindow(MainToolWindowFactory.ID)
+        val toolWindow = ToolWindowManager.getInstance(project).registerToolWindow(MainToolWindowFactory.ID,
+                true, ToolWindowAnchor.RIGHT, project, true);
 
         factory.createToolWindowContent(project, toolWindow);
         factory.setQuery(queryText)
         factory.searchPerformed(project)
+        factory.showToolWindow()
 
 //        toolWindow.
 //        toolWindow.contentManager.factory.
