@@ -7,7 +7,6 @@ import View.Components.StripedProgressBarUI;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.JBColor;
-import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import com.intellij.ui.content.ContentFactory.SERVICE;
@@ -38,12 +37,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     public MainToolWindowFactory() {
         Color primaryColor = new JBColor(new Color(232, 111, 86), new Color(247, 76, 34));
         this.loading.setForeground(primaryColor);
-        JScrollPane scrollPane = new JBScrollPane(mainContent,
-                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        root.add(scrollPane);
-        root.revalidate();
-        root.repaint();
         System.out.println("MainToolWindowFactory");
     }
 
@@ -70,17 +63,23 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         this.searchButton.disable();
         this.queryField.disable();
 
-        JPanel newPanel = new JPanel();
-        newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
-        newPanel.setBounds(resultsArea.getBounds());
-        newPanel.setToolTipText("Result 1");
-        newPanel.setBorder(new TitledBorder("Result 1"));
-        newPanel = addCodeLines(newPanel);
+//        try {
+//            Thread.sleep(6000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
+        JPanel newPanel = getPanel();
+        JPanel newPanel2 = getPanel();
+        resultsArea.setLayout(new BoxLayout(resultsArea, BoxLayout.Y_AXIS));
         resultsArea.add(newPanel);
+        resultsArea.add(newPanel2);
         resultsArea.setVisible(true);
         resultsArea.revalidate();
         resultsArea.repaint();
         this.loading.setVisible(false);
+        this.searchButton.enable();
+        this.queryField.enable();
 
 //        this.loading.setVisible(false);
 //        class MyWorker extends SwingWorker {
@@ -95,8 +94,19 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 //        new MyWorker().execute();
     }
 
+    private JPanel getPanel() {
+        JPanel newPanel = new JPanel();
+        newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
+        newPanel.setBounds(resultsArea.getBounds());
+        newPanel.setToolTipText("Result 1");
+        newPanel.setBorder(new TitledBorder("Result 1"));
+        newPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        newPanel = addCodeLines(newPanel);
+        return newPanel;
+    }
+
     private JPanel addCodeLines(JPanel panel) {
-        for (Integer i = 0 ; i < 20; i++) {
+        for (Integer i = 0 ; i < 6; i++) {
             JCheckBox newCB = new JCheckBox();
             newCB.setLabel("Check check " + i.toString());
             newCB.setActionCommand(i.toString());
@@ -117,11 +127,19 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
 //      CTAs SETUP
         setupCTAs(project);
+
+        this.explain.setBackground(new Color(255, 255, 255, 0));
+//        JScrollPane scrollPane = new JBScrollPane(mainContent,
+//                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+//                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+//        mainContent.add(scrollPane);
+//        mainContent.revalidate();
+//        mainContent.repaint();
     }
 
     private void setupCTAs(@NotNull final Project project) {
         searchButton.addActionListener(e -> searchPerformed(project));
-
+ 
         queryField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
