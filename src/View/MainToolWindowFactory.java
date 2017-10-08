@@ -13,6 +13,7 @@ import com.intellij.ui.content.ContentFactory.SERVICE;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -25,10 +26,14 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private JPanel root;
     private JTextField queryField;
     private JButton searchButton;
-    private JPanel maincontent;
+    private JPanel mainContent;
     private JPanel header;
     private JLabel title;
     private JProgressBar loading;
+    private JPanel resultsArea;
+    private JTextPane explain;
+    private JButton InsertCode;
+    private JButton CopyClipboard;
     private ToolWindow myToolWindow;
 
     public MainToolWindowFactory() {
@@ -56,33 +61,92 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     private void startLoading() {
+        this.resultsArea.setVisible(false);
         this.loading.setVisible(true);
         this.searchButton.disable();
         this.queryField.disable();
-//        class MyWorker extends SwingWorker {
-//            protected String doInBackground() {
-//                // Do my downloading code
-//                return "Done.";
-//            }
-//            protected void done() {
-//                loading.setVisible(false);
-//            }
-//        }
-//        new MyWorker().execute();
+
+        class MyWorker extends SwingWorker {
+            protected String doInBackground() {
+                try {
+                    Thread.sleep(600);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                JPanel newPanel = getPanel();
+                JPanel newPanel2 = getPanel();
+                JPanel newPanel3 = getPanel();
+                JPanel newPanel4 = getPanel();
+                JPanel newPanel5 = getPanel();
+
+                resultsArea.setLayout(new BoxLayout(resultsArea, BoxLayout.Y_AXIS));
+
+//                JPanel codeResults = new JPanel();
+//                codeResults.setBounds(resultsArea.getBounds());
+//                codeResults.add(newPanel);
+//                codeResults.add(newPanel2);
+//                codeResults.add(newPanel3);
+//                codeResults.add(newPanel4);
+//                resultsArea.add(codeResults);
+
+                resultsArea.add(newPanel);
+                resultsArea.add(newPanel2);
+                resultsArea.add(newPanel3);
+                resultsArea.add(newPanel4);
+                resultsArea.add(newPanel5);
+
+                resultsArea.setVisible(true);
+                resultsArea.revalidate();
+                resultsArea.repaint();
+
+                loading.setVisible(false);
+                searchButton.enable();
+                queryField.enable();
+
+                return "Done.";
+            }
+            protected void done() {
+                loading.setVisible(false);
+            }
+        }
+
+        new MyWorker().execute();
+    }
+
+    private JPanel getPanel() {
+        JPanel newPanel = new JPanel();
+        newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
+        newPanel.setBounds(resultsArea.getBounds());
+        newPanel.setToolTipText("Result 1");
+        newPanel.setBorder(new TitledBorder("Result 1"));
+        newPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        newPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+        newPanel = addCodeLines(newPanel);
+        return newPanel;
+    }
+
+    private JPanel addCodeLines(JPanel panel) {
+        for (Integer i = 0 ; i < 5; i++) {
+            JCheckBox newCB = new JCheckBox();
+            newCB.setLabel("Check check " + i.toString());
+            newCB.setActionCommand(i.toString());
+            panel.add(newCB);
+        }
+        return panel;
     }
 
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         System.out.println("createToolWindowContent");
         System.out.println(toolWindow.isActive());
-//      TODO: extract to functions
-
 
         this.loading.setUI(new StripedProgressBarUI(false, true));
         toolWindowSetup(toolWindow);
 
-//      CTAs SETUP
         setupCTAs(project);
+
+        this.explain.setBackground(new Color(255, 255, 255, 0));
     }
 
     private void setupCTAs(@NotNull final Project project) {
