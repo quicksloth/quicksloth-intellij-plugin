@@ -5,6 +5,7 @@
       <xy x="335" y="58" width="320" height="671"/>
     </constraints>
     <properties>
+      <autoscrolls value="true"/>
       <maximumSize width="320" height="-1"/>
       <minimumSize width="320" height="-1"/>
       <opaque value="true"/>
@@ -78,23 +79,69 @@
           </component>
         </children>
       </grid>
-      <grid id="11ea7" binding="maincontent" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="11ea7" binding="mainContent" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="16" left="8" bottom="0" right="8"/>
         <constraints border-constraint="Center"/>
-        <properties/>
+        <properties>
+          <autoscrolls value="true"/>
+          <minimumSize width="300" height="95"/>
+          <preferredSize width="300" height="95"/>
+        </properties>
         <border type="none"/>
         <children>
-          <vspacer id="d5295">
+          <grid id="828e6" binding="resultsArea" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <minimum-size width="300" height="-1"/>
+                <preferred-size width="300" height="-1"/>
+                <maximum-size width="300" height="-1"/>
+              </grid>
             </constraints>
-          </vspacer>
-          <component id="9b4f" class="javax.swing.JProgressBar" binding="loading">
+            <properties>
+              <visible value="true"/>
+            </properties>
+            <border type="none" title="Results"/>
+            <children>
+              <grid id="66f68" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints/>
+                <properties>
+                  <minimumSize width="271" height="59"/>
+                  <preferredSize width="271" height="59"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="116b9" class="javax.swing.JTextPane" binding="explain">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <dragEnabled value="false"/>
+                      <editable value="false"/>
+                      <enabled value="true"/>
+                      <text value="The following results were found as recommendation, each one has one score. Select the desired code lines and click on the button to add these in your code or you clipboard"/>
+                    </properties>
+                    <clientProperties>
+                      <JEditorPane.w3cLengthUnits class="java.lang.Boolean" value="true"/>
+                    </clientProperties>
+                  </component>
+                </children>
+              </grid>
+            </children>
+          </grid>
+          <component id="72ce3" class="javax.swing.JProgressBar" binding="loading">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                <minimum-size width="156" height="-1"/>
+                <preferred-size width="156" height="-1"/>
+                <maximum-size width="156" height="-1"/>
+              </grid>
             </constraints>
             <properties>
               <indeterminate value="true"/>
+              <string value=""/>
               <visible value="false"/>
             </properties>
           </component>

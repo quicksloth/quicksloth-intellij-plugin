@@ -7,12 +7,14 @@ import View.Components.StripedProgressBarUI;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.JBColor;
+import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import com.intellij.ui.content.ContentFactory.SERVICE;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -25,15 +27,23 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private JPanel root;
     private JTextField queryField;
     private JButton searchButton;
-    private JPanel maincontent;
+    private JPanel mainContent;
     private JPanel header;
     private JLabel title;
     private JProgressBar loading;
+    private JPanel resultsArea;
+    private JTextPane explain;
     private ToolWindow myToolWindow;
 
     public MainToolWindowFactory() {
         Color primaryColor = new JBColor(new Color(232, 111, 86), new Color(247, 76, 34));
         this.loading.setForeground(primaryColor);
+        JScrollPane scrollPane = new JBScrollPane(mainContent,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        root.add(scrollPane);
+        root.revalidate();
+        root.repaint();
         System.out.println("MainToolWindowFactory");
     }
 
@@ -59,6 +69,20 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         this.loading.setVisible(true);
         this.searchButton.disable();
         this.queryField.disable();
+
+        JPanel newPanel = new JPanel();
+        newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
+        newPanel.setBounds(resultsArea.getBounds());
+        newPanel.setToolTipText("Result 1");
+        newPanel.setBorder(new TitledBorder("Result 1"));
+        newPanel = addCodeLines(newPanel);
+        resultsArea.add(newPanel);
+        resultsArea.setVisible(true);
+        resultsArea.revalidate();
+        resultsArea.repaint();
+        this.loading.setVisible(false);
+
+//        this.loading.setVisible(false);
 //        class MyWorker extends SwingWorker {
 //            protected String doInBackground() {
 //                // Do my downloading code
@@ -69,6 +93,16 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 //            }
 //        }
 //        new MyWorker().execute();
+    }
+
+    private JPanel addCodeLines(JPanel panel) {
+        for (Integer i = 0 ; i < 20; i++) {
+            JCheckBox newCB = new JCheckBox();
+            newCB.setLabel("Check check " + i.toString());
+            newCB.setActionCommand(i.toString());
+            panel.add(newCB);
+        }
+        return panel;
     }
 
     @Override
