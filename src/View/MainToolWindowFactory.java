@@ -42,10 +42,11 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     public MainToolWindowFactory() {
         Color primaryColor = new JBColor(new Color(232, 111, 86), new Color(247, 76, 34));
         this.loading.setForeground(primaryColor);
+        this.myToolWindow.hide(null);
         System.out.println("MainToolWindowFactory");
     }
 
-    private void searchPerformed(Project project) {
+    public void searchPerformed(Project project) {
         System.out.println("queryField " + queryField.getText());
         this.startLoading();
 
@@ -104,8 +105,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private JPanel getPanel(Codes code) {
         JPanel newPanel = new JPanel();
         newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
-        newPanel.setBounds(resultsArea.getBounds());
-        newPanel.setBorder(new TitledBorder("Code Score: " + (code.getScore()*100) + "%"));
+        newPanel.setBorder(new TitledBorder("Code Score: " + (code.getScore() * 100) + "%"));
         newPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         newPanel.setAlignmentY(Component.TOP_ALIGNMENT);
 
@@ -157,5 +157,9 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         ContentFactory contentFactory = SERVICE.getInstance();
         Content content = contentFactory.createContent(root, "", false);
         toolWindow.getContentManager().addContent(content);
+    }
+
+    public void setQuery(String query) {
+        this.queryField.setText(query);
     }
 }
