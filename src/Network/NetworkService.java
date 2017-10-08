@@ -46,6 +46,7 @@ public class NetworkService extends AnAction {
                 System.out.println((String) args[0]);
                 Gson gson = new Gson();
                 RecommendedCodes resultCodes  = gson.fromJson((String) args[0], RecommendedCodes.class);
+                resultCodes.sortCodes();
                 toolwindow.showResults(resultCodes);
                 finalSocket.disconnect();
             });

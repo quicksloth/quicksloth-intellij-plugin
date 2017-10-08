@@ -65,6 +65,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     public void showResults(RecommendedCodes resultCodes) {
+        resultsArea.setBounds(mainContent.getBounds());
         resultsArea.setLayout(new BoxLayout(resultsArea, BoxLayout.Y_AXIS));
 
         for (Codes code: resultCodes.getCodes()) {
