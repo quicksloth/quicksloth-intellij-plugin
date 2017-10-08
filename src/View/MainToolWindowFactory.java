@@ -1,8 +1,11 @@
 package View;
 
 import Controllers.Utils.CodeExtractor;
+import Models.RecommendedCodes;
 import Models.RequestCode;
+import Models.Codes;
 import Network.NetworkService;
+
 import View.Components.StripedProgressBarUI;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
@@ -45,6 +48,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private void searchPerformed(Project project) {
         System.out.println("queryField " + queryField.getText());
         this.startLoading();
+
         RequestCode requestCode = new RequestCode(queryField.getText());
 
         if (project != null) {
@@ -56,8 +60,38 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             System.out.println(requestCode.getLanguage());
             System.out.println(requestCode.getLibs());
             System.out.println(requestCode.getQuery());
-            NetworkService.getCodeRecommendation(requestCode);
+            NetworkService.getCodeRecommendation(requestCode, this);
         }
+    }
+
+    public void showResults(RecommendedCodes resultCodes) {
+        resultsArea.setBounds(mainContent.getBounds());
+        resultsArea.setLayout(new BoxLayout(resultsArea, BoxLayout.Y_AXIS));
+
+        for (Codes code: resultCodes.getCodes()) {
+            JPanel newPanel = getPanel(code);
+            resultsArea.add(newPanel);
+        }
+
+//        JPanel codeResults = new JPanel();
+//        codeResults.setBounds(resultsArea.getBounds());
+//        codeResults.add(newPanel);
+//        codeResults.add(newPanel2);
+//        codeResults.add(newPanel3);
+//        codeResults.add(newPanel4);
+//        resultsArea.add(codeResults);
+
+        resultsArea.setVisible(true);
+        resultsArea.revalidate();
+        resultsArea.repaint();
+
+        stopLoading();
+    }
+
+    private void stopLoading() {
+        loading.setVisible(false);
+        searchButton.enable();
+        queryField.enable();
     }
 
     private void startLoading() {
@@ -65,72 +99,26 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         this.loading.setVisible(true);
         this.searchButton.disable();
         this.queryField.disable();
-
-        class MyWorker extends SwingWorker {
-            protected String doInBackground() {
-                try {
-                    Thread.sleep(600);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                JPanel newPanel = getPanel();
-                JPanel newPanel2 = getPanel();
-                JPanel newPanel3 = getPanel();
-                JPanel newPanel4 = getPanel();
-                JPanel newPanel5 = getPanel();
-
-                resultsArea.setLayout(new BoxLayout(resultsArea, BoxLayout.Y_AXIS));
-
-//                JPanel codeResults = new JPanel();
-//                codeResults.setBounds(resultsArea.getBounds());
-//                codeResults.add(newPanel);
-//                codeResults.add(newPanel2);
-//                codeResults.add(newPanel3);
-//                codeResults.add(newPanel4);
-//                resultsArea.add(codeResults);
-
-                resultsArea.add(newPanel);
-                resultsArea.add(newPanel2);
-                resultsArea.add(newPanel3);
-                resultsArea.add(newPanel4);
-                resultsArea.add(newPanel5);
-
-                resultsArea.setVisible(true);
-                resultsArea.revalidate();
-                resultsArea.repaint();
-
-                loading.setVisible(false);
-                searchButton.enable();
-                queryField.enable();
-
-                return "Done.";
-            }
-            protected void done() {
-                loading.setVisible(false);
-            }
-        }
-
-        new MyWorker().execute();
     }
 
-    private JPanel getPanel() {
+    private JPanel getPanel(Codes code) {
         JPanel newPanel = new JPanel();
         newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
         newPanel.setBounds(resultsArea.getBounds());
-        newPanel.setToolTipText("Result 1");
-        newPanel.setBorder(new TitledBorder("Result 1"));
-        newPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        newPanel.setBorder(new TitledBorder("Code Score: " + (code.getScore()*100) + "%"));
+        newPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         newPanel.setAlignmentY(Component.TOP_ALIGNMENT);
-        newPanel = addCodeLines(newPanel);
+
+        newPanel = addCodeLines(newPanel, code);
         return newPanel;
     }
 
-    private JPanel addCodeLines(JPanel panel) {
-        for (Integer i = 0 ; i < 5; i++) {
+    private JPanel addCodeLines(JPanel panel, Codes code) {
+        String[] codeLines = code.getCodeText().split("\n");
+        for (String line: codeLines) {
             JCheckBox newCB = new JCheckBox();
-            newCB.setLabel("Check check " + i.toString());
-            newCB.setActionCommand(i.toString());
+            newCB.setLabel(line);
+            newCB.setActionCommand(line);
             panel.add(newCB);
         }
         return panel;
