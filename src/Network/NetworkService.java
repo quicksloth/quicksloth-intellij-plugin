@@ -2,6 +2,7 @@ package Network;
 
 import Models.RecommendedCodes;
 import Models.RequestCode;
+import View.MainToolWindowFactory;
 import com.google.gson.Gson;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -23,10 +24,11 @@ public class NetworkService extends AnAction {
                 "Python",
                 Collections.singletonList("os"),
                 Collections.singletonList("open file to read file"));
-        getCodeRecommendation(rc);
+        MainToolWindowFactory toolWindowFactory = new MainToolWindowFactory();
+        getCodeRecommendation(rc, toolWindowFactory);
     }
 
-    static public void getCodeRecommendation(RequestCode requestCode) {
+    static public void getCodeRecommendation(RequestCode requestCode, MainToolWindowFactory toolwindow) {
         System.out.println("GOING TO CONNECT");
         Socket socket = null;
         try {
@@ -44,6 +46,7 @@ public class NetworkService extends AnAction {
                 System.out.println((String) args[0]);
                 Gson gson = new Gson();
                 RecommendedCodes resultCodes  = gson.fromJson((String) args[0], RecommendedCodes.class);
+                toolwindow.showResults(resultCodes);
 //                return resultCodes;
                 finalSocket.disconnect();
             });
