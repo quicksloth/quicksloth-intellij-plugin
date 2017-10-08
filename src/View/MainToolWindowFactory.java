@@ -103,6 +103,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         newPanel.setToolTipText("Result 1");
         newPanel.setBorder(new TitledBorder("Result 1"));
         newPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        newPanel.setAlignmentY(Component.TOP_ALIGNMENT);
         newPanel = addCodeLines(newPanel);
         return newPanel;
     }
