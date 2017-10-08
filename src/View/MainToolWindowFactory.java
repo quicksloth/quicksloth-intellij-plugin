@@ -32,6 +32,8 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private JProgressBar loading;
     private JPanel resultsArea;
     private JTextPane explain;
+    private JButton InsertCode;
+    private JButton CopyClipboard;
     private ToolWindow myToolWindow;
 
     public MainToolWindowFactory() {
@@ -139,7 +141,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
     private void setupCTAs(@NotNull final Project project) {
         searchButton.addActionListener(e -> searchPerformed(project));
- 
+
         queryField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
