@@ -46,6 +46,62 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         System.out.println("MainToolWindowFactory");
     }
 
+    @Override
+    public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
+        setupToolWindow(toolWindow);
+        setupCTAs(project);
+        setupUIDetails();
+    }
+
+    private void setupToolWindow(@NotNull ToolWindow toolWindow) {
+        this.myToolWindow = toolWindow;
+        this.myToolWindow.hide(null);
+        ContentFactory contentFactory = SERVICE.getInstance();
+        Content content = contentFactory.createContent(root, "", false);
+        toolWindow.getContentManager().addContent(content);
+    }
+
+    private void setupCTAs(@NotNull final Project project) {
+        searchButton.addActionListener(e -> searchPerformed(project));
+
+        queryField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                if (e.getKeyChar() == '\n') {
+                    System.out.println("Enter Pressed");
+                    searchPerformed(project);
+                }
+            }
+        });
+    }
+
+    private void setupUIDetails() {
+        this.loading.setUI(new StripedProgressBarUI(false, true));
+        this.explain.setBackground(new Color(255, 255, 255, 0));
+    }
+
+    public void showToolWindow() {
+        this.myToolWindow.show(null);
+    }
+
+    public void setQuery(String query) {
+        this.queryField.setText(query);
+    }
+
+    private void stopLoading() {
+        loading.setVisible(false);
+        searchButton.enable();
+        queryField.enable();
+    }
+
+    private void startLoading() {
+        this.resultsArea.setVisible(false);
+        this.loading.setVisible(true);
+        this.searchButton.disable();
+        this.queryField.disable();
+    }
+
     public void searchPerformed(Project project) {
         System.out.println("queryField " + queryField.getText());
         this.startLoading();
@@ -74,32 +130,11 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             resultsArea.add(newPanel);
         }
 
-//        JPanel codeResults = new JPanel();
-//        codeResults.setBounds(resultsArea.getBounds());
-//        codeResults.add(newPanel);
-//        codeResults.add(newPanel2);
-//        codeResults.add(newPanel3);
-//        codeResults.add(newPanel4);
-//        resultsArea.add(codeResults);
-
         resultsArea.setVisible(true);
         resultsArea.revalidate();
         resultsArea.repaint();
 
         stopLoading();
-    }
-
-    private void stopLoading() {
-        loading.setVisible(false);
-        searchButton.enable();
-        queryField.enable();
-    }
-
-    private void startLoading() {
-        this.resultsArea.setVisible(false);
-        this.loading.setVisible(true);
-        this.searchButton.disable();
-        this.queryField.disable();
     }
 
     private JPanel getPanel(Codes code) {
@@ -122,49 +157,5 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             panel.add(newCB);
         }
         return panel;
-    }
-
-    @Override
-    public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
-        System.out.println("createToolWindowContent");
-        System.out.println(toolWindow.isActive());
-
-        this.loading.setUI(new StripedProgressBarUI(false, true));
-        toolWindowSetup(toolWindow);
-
-        setupCTAs(project);
-
-        this.explain.setBackground(new Color(255, 255, 255, 0));
-    }
-
-    private void setupCTAs(@NotNull final Project project) {
-        searchButton.addActionListener(e -> searchPerformed(project));
-
-        queryField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-                if (e.getKeyChar() == '\n') {
-                    System.out.println("Enter Pressed");
-                    searchPerformed(project);
-                }
-            }
-        });
-    }
-
-    public void showToolWindow() {
-        this.myToolWindow.show(null);
-    }
-
-    private void toolWindowSetup(@NotNull ToolWindow toolWindow) {
-        this.myToolWindow = toolWindow;
-        this.myToolWindow.hide(null);
-        ContentFactory contentFactory = SERVICE.getInstance();
-        Content content = contentFactory.createContent(root, "", false);
-        toolWindow.getContentManager().addContent(content);
-    }
-
-    public void setQuery(String query) {
-        this.queryField.setText(query);
     }
 }

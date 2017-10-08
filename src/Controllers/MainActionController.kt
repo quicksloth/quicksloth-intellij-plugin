@@ -3,6 +3,7 @@ package Controllers;
 import View.MainToolWindowFactory
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.wm.ToolWindowAnchor
 import com.intellij.openapi.wm.ToolWindowManager
@@ -20,8 +21,17 @@ class MainactionController : AnAction() {
                 "Input Your Query",
                 Messages.getQuestionIcon())
 
-//        println(ToolWindowManager.getInstance(project).getActiveToolWindowId())
-        val factory =  MainToolWindowFactory();
+        showProcessingToolWindow(project, queryText)
+    }
+
+    private fun showProcessingToolWindow(project: Project, queryText: String?) {
+        /**
+         * WORKAROUND (Problem found here!!)
+         * The only way was to unregister ToolWindow and register again
+         * to have access to factory. After, this access is used to
+         * set search query and start the search
+         * */
+        val factory = MainToolWindowFactory();
         ToolWindowManager.getInstance(project).unregisterToolWindow(MainToolWindowFactory.ID)
         val toolWindow = ToolWindowManager.getInstance(project).registerToolWindow(MainToolWindowFactory.ID,
                 true, ToolWindowAnchor.RIGHT, project, true);
@@ -30,23 +40,5 @@ class MainactionController : AnAction() {
         factory.setQuery(queryText)
         factory.searchPerformed(project)
         factory.showToolWindow()
-
-//        toolWindow.
-//        toolWindow.contentManager.factory.
-//        val mainToolWindow = MainToolWindowFactory()
-//        ContentFactory.SERVICE.getInstance().createContent(mainToolWindow, "a", false)
-//        toolWindow.setQuery(queryText)
-//        toolWindow.searchPerformed(project)
-
-//        val con = MainToolWindowFactory()
-//        con.createToolWindowContent(project, toolWindow)
-
-//        val factory = toolWindow.contentManager.factory.createContent(con, null, false)
-
-//        val factoryMainToolwindow = factory as MainToolWindowFactory
-//        factoryMainToolwindow.setQuery(queryText)
-//        factoryMainToolwindow.searchPerformed(project)
-
-
     }
 }
