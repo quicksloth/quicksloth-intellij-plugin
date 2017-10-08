@@ -1,5 +1,6 @@
 package Models;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -11,6 +12,7 @@ public class RecommendedCodes {
 
     public RecommendedCodes(List<Codes> codes) {
         this.codes = codes;
+        Collections.sort(this.codes, (o1, o2) -> Float.compare(o1.getScore(), o2.getScore()));
     }
 
     public List<Codes> getCodes() {

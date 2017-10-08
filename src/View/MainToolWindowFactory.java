@@ -62,19 +62,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             System.out.println(requestCode.getQuery());
             NetworkService.getCodeRecommendation(requestCode, this);
         }
-
-//        class MyWorker extends SwingWorker {
-//            protected String doInBackground() {
-//                try {
-//                    Thread.sleep(600);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                showResults();
-//                return "done";
-//            }
-//        }
-//        new MyWorker().execute();
     }
 
     public void showResults(RecommendedCodes resultCodes) {
@@ -118,7 +105,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
         newPanel.setBounds(resultsArea.getBounds());
         newPanel.setBorder(new TitledBorder("Code Score: " + (code.getScore()*100) + "%"));
-        newPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        newPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         newPanel.setAlignmentY(Component.TOP_ALIGNMENT);
 
         newPanel = addCodeLines(newPanel, code);
