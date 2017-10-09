@@ -154,12 +154,8 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
         newPanel = addCodeLines(newPanel, code);
 
-        JTextPane urlDesc = new JTextPane();
-        urlDesc.setContentType("text/html");
-        urlDesc.setText("Url: " +
-                "<html> <a href=" + code.getSourceLink() + "> " +
-                code.getSourceLink() +
-                "</a> </html>");
+        JTextArea urlDesc = new JTextArea();
+        urlDesc.setText("Url: " + code.getSourceLink());
         newPanel.add(urlDesc);
 
         return newPanel;
