@@ -147,12 +147,28 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
     private JPanel getPanel(Codes code) {
         JPanel newPanel = new JPanel();
+        newPanel = setupResultPanel(code, newPanel);
+        newPanel = addCodeLines(newPanel, code);
+        newPanel = addCodeUrl(code, newPanel);
+
+        return newPanel;
+    }
+
+    private JPanel addCodeUrl(Codes code, JPanel newPanel) {
+        JTextArea urlDesc = new JTextArea();
+        urlDesc.setEnabled(false);
+        urlDesc.setDragEnabled(false);
+        urlDesc.setEditable(false);
+        urlDesc.setText("Url: " + code.getSourceLink());
+        newPanel.add(urlDesc);
+        return newPanel;
+    }
+
+    private JPanel setupResultPanel(Codes code, JPanel newPanel) {
         newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
         newPanel.setBorder(new TitledBorder("Code Score: " + (code.getScore() * 100) + "%"));
         newPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         newPanel.setAlignmentY(Component.TOP_ALIGNMENT);
-
-        newPanel = addCodeLines(newPanel, code);
         return newPanel;
     }
 
