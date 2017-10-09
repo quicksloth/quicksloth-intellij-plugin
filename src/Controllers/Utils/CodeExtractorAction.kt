@@ -13,5 +13,4 @@ class CodeExtractorAction : AnAction() {
         val project = event.project ?: return
         CodeExtractor().extractAST(project, requestCode)
     }
-
 }

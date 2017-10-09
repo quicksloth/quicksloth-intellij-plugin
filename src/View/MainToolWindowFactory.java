@@ -26,6 +26,7 @@ import java.awt.event.KeyEvent;
  */
 public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindowFactory {
 
+    static public String ID = "QuickSloth";
     private JPanel root;
     private JTextField queryField;
     private JButton searchButton;
@@ -45,96 +46,19 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         System.out.println("MainToolWindowFactory");
     }
 
-    private void searchPerformed(Project project) {
-        System.out.println("queryField " + queryField.getText());
-        this.startLoading();
-
-        RequestCode requestCode = new RequestCode(queryField.getText());
-
-        if (project != null) {
-            requestCode = new CodeExtractor().extractAST(project, requestCode);
-        }
-
-        if (requestCode != null ) {
-            System.out.println(requestCode.getComments());
-            System.out.println(requestCode.getLanguage());
-            System.out.println(requestCode.getLibs());
-            System.out.println(requestCode.getQuery());
-            NetworkService.getCodeRecommendation(requestCode, this);
-        }
-    }
-
-    public void showResults(RecommendedCodes resultCodes) {
-        resultsArea.setBounds(mainContent.getBounds());
-        resultsArea.setLayout(new BoxLayout(resultsArea, BoxLayout.Y_AXIS));
-
-        for (Codes code: resultCodes.getCodes()) {
-            JPanel newPanel = getPanel(code);
-            resultsArea.add(newPanel);
-        }
-
-//        JPanel codeResults = new JPanel();
-//        codeResults.setBounds(resultsArea.getBounds());
-//        codeResults.add(newPanel);
-//        codeResults.add(newPanel2);
-//        codeResults.add(newPanel3);
-//        codeResults.add(newPanel4);
-//        resultsArea.add(codeResults);
-
-        resultsArea.setVisible(true);
-        resultsArea.revalidate();
-        resultsArea.repaint();
-
-        stopLoading();
-    }
-
-    private void stopLoading() {
-        loading.setVisible(false);
-        searchButton.enable();
-        queryField.enable();
-    }
-
-    private void startLoading() {
-        this.resultsArea.setVisible(false);
-        this.loading.setVisible(true);
-        this.searchButton.disable();
-        this.queryField.disable();
-    }
-
-    private JPanel getPanel(Codes code) {
-        JPanel newPanel = new JPanel();
-        newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
-        newPanel.setBounds(resultsArea.getBounds());
-        newPanel.setBorder(new TitledBorder("Code Score: " + (code.getScore()*100) + "%"));
-        newPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        newPanel.setAlignmentY(Component.TOP_ALIGNMENT);
-
-        newPanel = addCodeLines(newPanel, code);
-        return newPanel;
-    }
-
-    private JPanel addCodeLines(JPanel panel, Codes code) {
-        String[] codeLines = code.getCodeText().split("\n");
-        for (String line: codeLines) {
-            JCheckBox newCB = new JCheckBox();
-            newCB.setLabel(line);
-            newCB.setActionCommand(line);
-            panel.add(newCB);
-        }
-        return panel;
-    }
-
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
-        System.out.println("createToolWindowContent");
-        System.out.println(toolWindow.isActive());
-
-        this.loading.setUI(new StripedProgressBarUI(false, true));
-        toolWindowSetup(toolWindow);
-
+        setupToolWindow(toolWindow);
         setupCTAs(project);
+        setupUIDetails();
+    }
 
-        this.explain.setBackground(new Color(255, 255, 255, 0));
+    private void setupToolWindow(@NotNull ToolWindow toolWindow) {
+        this.myToolWindow = toolWindow;
+        this.myToolWindow.hide(null);
+        ContentFactory contentFactory = SERVICE.getInstance();
+        Content content = contentFactory.createContent(root, "", false);
+        toolWindow.getContentManager().addContent(content);
     }
 
     private void setupCTAs(@NotNull final Project project) {
@@ -152,10 +76,86 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         });
     }
 
-    private void toolWindowSetup(@NotNull ToolWindow toolWindow) {
-        this.myToolWindow = toolWindow;
-        ContentFactory contentFactory = SERVICE.getInstance();
-        Content content = contentFactory.createContent(root, "", false);
-        toolWindow.getContentManager().addContent(content);
+    private void setupUIDetails() {
+        this.loading.setUI(new StripedProgressBarUI(false, true));
+        this.explain.setBackground(new Color(255, 255, 255, 0));
+    }
+
+    public void showToolWindow() {
+        this.myToolWindow.show(null);
+    }
+
+    public void setQuery(String query) {
+        this.queryField.setText(query);
+    }
+
+    private void stopLoading() {
+        loading.setVisible(false);
+        searchButton.enable();
+        queryField.enable();
+    }
+
+    private void startLoading() {
+        this.resultsArea.setVisible(false);
+        this.loading.setVisible(true);
+        this.searchButton.disable();
+        this.queryField.disable();
+    }
+
+    public void searchPerformed(Project project) {
+        System.out.println("queryField " + queryField.getText());
+        this.startLoading();
+
+        RequestCode requestCode = new RequestCode(queryField.getText());
+
+        if (project != null) {
+            requestCode = new CodeExtractor().extractAST(project, requestCode);
+        }
+
+        if (requestCode != null ) {
+//            System.out.println(requestCode.getComments());
+//            System.out.println(requestCode.getLanguage());
+//            System.out.println(requestCode.getLibs());
+//            System.out.println(requestCode.getQuery());
+            NetworkService.getCodeRecommendation(requestCode, this);
+        }
+    }
+
+    public void showResults(RecommendedCodes resultCodes) {
+        resultsArea.setBounds(mainContent.getBounds());
+        resultsArea.setLayout(new BoxLayout(resultsArea, BoxLayout.Y_AXIS));
+
+        for (Codes code: resultCodes.getCodes()) {
+            JPanel newPanel = getPanel(code);
+            resultsArea.add(newPanel);
+        }
+
+        resultsArea.setVisible(true);
+        resultsArea.revalidate();
+        resultsArea.repaint();
+
+        stopLoading();
+    }
+
+    private JPanel getPanel(Codes code) {
+        JPanel newPanel = new JPanel();
+        newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
+        newPanel.setBorder(new TitledBorder("Code Score: " + (code.getScore() * 100) + "%"));
+        newPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        newPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+
+        newPanel = addCodeLines(newPanel, code);
+        return newPanel;
+    }
+
+    private JPanel addCodeLines(JPanel panel, Codes code) {
+        String[] codeLines = code.getCodeText().split("\n");
+        for (String line: codeLines) {
+            JCheckBox newCB = new JCheckBox();
+            newCB.setLabel(line);
+            newCB.setActionCommand(line);
+            panel.add(newCB);
+        }
+        return panel;
     }
 }
