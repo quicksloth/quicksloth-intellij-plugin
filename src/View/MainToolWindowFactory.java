@@ -6,7 +6,8 @@ import Models.RecommendedCodes;
 import Models.RequestCode;
 import Network.NetworkService;
 import View.Components.StripedProgressBarUI;
-import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.application.Result;
+import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
@@ -172,11 +173,11 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         final int cursorOffset = editor.getCaretModel().getOffset();
         final Document document = editor.getDocument();
 
-        ApplicationManager.getApplication().runWriteAction(new Runnable() {
+        new WriteCommandAction(project) {
             @Override
-            public void run() {
+            protected void run(@NotNull Result result) throws Throwable {
                 document.insertString(cursorOffset, "print('HELLO WORLD')");
             }
-        });
+        }.execute();
     }
 }
