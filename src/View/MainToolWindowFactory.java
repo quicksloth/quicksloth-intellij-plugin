@@ -1,12 +1,15 @@
 package View;
 
 import Controllers.Utils.CodeExtractor;
+import Models.Codes;
 import Models.RecommendedCodes;
 import Models.RequestCode;
-import Models.Codes;
 import Network.NetworkService;
-
 import View.Components.StripedProgressBarUI;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.JBColor;
@@ -36,8 +39,8 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private JProgressBar loading;
     private JPanel resultsArea;
     private JTextPane explain;
-    private JButton InsertCode;
-    private JButton CopyClipboard;
+    private JButton insertCode;
+    private JButton copyClipboard;
     private ToolWindow myToolWindow;
 
     public MainToolWindowFactory() {
@@ -74,6 +77,9 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
                 }
             }
         });
+
+        insertCode.addActionListener(e -> insertSelectedCode(project));
+
     }
 
     private void setupUIDetails() {
@@ -157,5 +163,20 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             panel.add(newCB);
         }
         return panel;
+    }
+
+    public void insertSelectedCode(Project project) {
+        FileEditorManager manager = FileEditorManager.getInstance(project);
+        final Editor editor = manager.getSelectedTextEditor();
+        assert editor != null;
+        final int cursorOffset = editor.getCaretModel().getOffset();
+        final Document document = editor.getDocument();
+
+        ApplicationManager.getApplication().runWriteAction(new Runnable() {
+            @Override
+            public void run() {
+                document.insertString(cursorOffset, "print('HELLO WORLD')");
+            }
+        });
     }
 }
