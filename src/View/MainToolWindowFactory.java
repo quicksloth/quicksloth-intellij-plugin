@@ -47,6 +47,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     public MainToolWindowFactory() {
         Color primaryColor = new JBColor(new Color(232, 111, 86), new Color(247, 76, 34));
         this.loading.setForeground(primaryColor);
+        this.myToolWindow.hide(null);
         System.out.println("MainToolWindowFactory");
     }
 
@@ -59,7 +60,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
     private void setupToolWindow(@NotNull ToolWindow toolWindow) {
         this.myToolWindow = toolWindow;
-        this.myToolWindow.hide(null);
         ContentFactory contentFactory = SERVICE.getInstance();
         Content content = contentFactory.createContent(root, "", false);
         toolWindow.getContentManager().addContent(content);
@@ -166,7 +166,33 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         return panel;
     }
 
-    public void insertSelectedCode(Project project) {
+//    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+//      clipboard.setContents(stringSelection, null);
+    private void insertSelectedCode(Project project) {
+        String code = getSelectedCode();
+        insertCodeInFile(project, code);
+    }
+
+    @NotNull
+    private String getSelectedCode() {
+        String code = "";
+        for (Component component: this.resultsArea.getComponents()) {
+            if (component instanceof JPanel) {
+                for (Component childComponents: ((JPanel) component).getComponents()) {
+                    if (childComponents instanceof JCheckBox) {
+                        System.out.println("JCheckBox");
+                        JCheckBox checkBox = ((JCheckBox) childComponents);
+                        if (checkBox.isSelected()) {
+                            code += (checkBox.getText() + "\n");
+                        }
+                    }
+                }
+            }
+        }
+        return code;
+    }
+
+    private void insertCodeInFile(final Project project, String code) {
         FileEditorManager manager = FileEditorManager.getInstance(project);
         final Editor editor = manager.getSelectedTextEditor();
         assert editor != null;
@@ -176,7 +202,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         new WriteCommandAction(project) {
             @Override
             protected void run(@NotNull Result result) throws Throwable {
-                document.insertString(cursorOffset, "print('HELLO WORLD')\nprint('ey')");
+                document.insertString(cursorOffset, code);
             }
         }.execute();
     }
