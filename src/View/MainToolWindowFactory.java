@@ -153,6 +153,15 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         newPanel.setAlignmentY(Component.TOP_ALIGNMENT);
 
         newPanel = addCodeLines(newPanel, code);
+
+        JTextPane urlDesc = new JTextPane();
+        urlDesc.setContentType("text/html");
+        urlDesc.setText("Url: " +
+                "<html> <a href=" + code.getSourceLink() + "> " +
+                code.getSourceLink() +
+                "</a> </html>");
+        newPanel.add(urlDesc);
+
         return newPanel;
     }
 
