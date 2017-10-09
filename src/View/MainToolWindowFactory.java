@@ -176,7 +176,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         new WriteCommandAction(project) {
             @Override
             protected void run(@NotNull Result result) throws Throwable {
-                document.insertString(cursorOffset, "print('HELLO WORLD')");
+                document.insertString(cursorOffset, "print('HELLO WORLD')\n\rprint('ey')");
             }
         }.execute();
     }
