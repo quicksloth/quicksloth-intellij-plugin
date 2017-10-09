@@ -11,10 +11,8 @@ import com.intellij.openapi.wm.ToolWindowManager
 /**
  * Created by pamelaiupipeixinho on 16/09/17.
  */
-//ToolWindowManager.getInstance(project).getToolWindow("My Log");
 class MainactionController : AnAction() {
     override fun actionPerformed(event: AnActionEvent) {
-        println("Here, I'm")
         val project = event.project?: return
         val queryText = Messages.showInputDialog(project,
                 "What is your Doubt?",

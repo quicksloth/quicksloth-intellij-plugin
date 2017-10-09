@@ -113,10 +113,10 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         }
 
         if (requestCode != null ) {
-            System.out.println(requestCode.getComments());
-            System.out.println(requestCode.getLanguage());
-            System.out.println(requestCode.getLibs());
-            System.out.println(requestCode.getQuery());
+//            System.out.println(requestCode.getComments());
+//            System.out.println(requestCode.getLanguage());
+//            System.out.println(requestCode.getLibs());
+//            System.out.println(requestCode.getQuery());
             NetworkService.getCodeRecommendation(requestCode, this);
         }
     }
