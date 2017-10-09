@@ -22,6 +22,8 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -47,7 +49,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     public MainToolWindowFactory() {
         Color primaryColor = new JBColor(new Color(232, 111, 86), new Color(247, 76, 34));
         this.loading.setForeground(primaryColor);
-        this.myToolWindow.hide(null);
         System.out.println("MainToolWindowFactory");
     }
 
@@ -60,6 +61,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
     private void setupToolWindow(@NotNull ToolWindow toolWindow) {
         this.myToolWindow = toolWindow;
+        this.myToolWindow.hide(null);
         ContentFactory contentFactory = SERVICE.getInstance();
         Content content = contentFactory.createContent(root, "", false);
         toolWindow.getContentManager().addContent(content);
@@ -67,6 +69,8 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
     private void setupCTAs(@NotNull final Project project) {
         searchButton.addActionListener(e -> searchPerformed(project));
+        insertCode.addActionListener(e -> insertSelectedCode(project));
+        copyClipboard.addActionListener(e -> copySelectedCodeToClipboard());
 
         queryField.addKeyListener(new KeyAdapter() {
             @Override
@@ -78,9 +82,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
                 }
             }
         });
-
-        insertCode.addActionListener(e -> insertSelectedCode(project));
-
     }
 
     private void setupUIDetails() {
@@ -166,11 +167,16 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         return panel;
     }
 
-//    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-//      clipboard.setContents(stringSelection, null);
     private void insertSelectedCode(Project project) {
         String code = getSelectedCode();
         insertCodeInFile(project, code);
+    }
+
+    private void copySelectedCodeToClipboard() {
+        String code = getSelectedCode();
+        StringSelection stringSelection = new StringSelection(code);
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(stringSelection, null);
     }
 
     @NotNull
@@ -180,7 +186,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             if (component instanceof JPanel) {
                 for (Component childComponents: ((JPanel) component).getComponents()) {
                     if (childComponents instanceof JCheckBox) {
-                        System.out.println("JCheckBox");
                         JCheckBox checkBox = ((JCheckBox) childComponents);
                         if (checkBox.isSelected()) {
                             code += (checkBox.getText() + "\n");
