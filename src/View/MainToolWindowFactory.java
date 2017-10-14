@@ -12,6 +12,7 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.JBColor;
 import com.intellij.ui.content.Content;
@@ -243,11 +244,19 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         final int cursorOffset = editor.getCaretModel().getOffset();
         final Document document = editor.getDocument();
 
-        new WriteCommandAction(project) {
-            @Override
-            protected void run(@NotNull Result result) throws Throwable {
-                document.insertString(cursorOffset, code);
-            }
-        }.execute();
+        try {
+            new WriteCommandAction(project) {
+                @Override
+                protected void run(@NotNull Result result) throws Throwable {
+                    document.insertString(cursorOffset, code);
+                }
+            }.execute();
+        } catch(Exception e) {
+            this.showGenericErrorDialog(project);
+        }
+    }
+
+    private void showGenericErrorDialog(Project project) {
+        Messages.showErrorDialog(project, "ok", "Some error occured");
     }
 }
