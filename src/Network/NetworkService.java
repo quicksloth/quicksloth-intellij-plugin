@@ -30,6 +30,21 @@ public class NetworkService extends AnAction {
 
     static public void getCodeRecommendation(RequestCode requestCode, MainToolWindowFactory toolwindow) {
         System.out.println("GOING TO CONNECT");
+        connectAndCallEvent(requestCode, toolwindow);
+    }
+
+    static public void cancelEventDisconnecting() {
+//        TODO test
+        Socket socket = null;
+        try {
+            socket = IO.socket("http://0.0.0.0:10443/code-recommendations");
+            socket.disconnect();
+        } catch (URISyntaxException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    private static void connectAndCallEvent(RequestCode requestCode, MainToolWindowFactory toolwindow) {
         Socket socket = null;
         try {
             socket = IO.socket("http://0.0.0.0:10443/code-recommendations");
