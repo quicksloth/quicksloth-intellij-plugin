@@ -50,6 +50,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private JButton copyClipboard;
     private JScrollPane scroll;
     private JPanel resultButtons;
+    private JPanel codesArea;
     private ToolWindow myToolWindow;
 
     public MainToolWindowFactory() {
@@ -115,6 +116,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     private void startLoading() {
+        codesArea.removeAll();
         mainContent.setPreferredSize(new Dimension(300, 95));
         resultsArea.setVisible(false);
         loading.setVisible(true);
@@ -156,6 +158,11 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     public Boolean showResults(RecommendedCodes resultCodes) {
         resultsArea.setBounds(mainContent.getBounds());
         resultsArea.setLayout(new BoxLayout(resultsArea, BoxLayout.Y_AXIS));
+        resultsArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        codesArea.setLayout(new BoxLayout(codesArea, BoxLayout.Y_AXIS));
+        codesArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         int height = 125;
         int width = 10;
 
@@ -164,10 +171,13 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             System.out.println(newPanel.getHeight());
             height += newPanel.getHeight();
             width = Math.max(width, newPanel.getWidth());
-            resultsArea.add(newPanel);
+            codesArea.add(newPanel);
         }
 
         mainContent.setPreferredSize(new Dimension(width, height));
+        resultButtons.setPreferredSize(new Dimension(scroll.getWidth() - 40, 25));
+        resultButtons.setMinimumSize(new Dimension(scroll.getWidth() - 40, 25));
+
         resultsArea.setVisible(true);
 
         mainContent.revalidate();
@@ -186,7 +196,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private JPanel getPanel(Codes code) {
         JPanel newPanel = new JPanel();
         newPanel = setupResultPanel(code, newPanel);
-        newPanel = addCodeLines(newPanel, code);
+        newPanel = addCodeLines(code, newPanel);
         newPanel = addCodeUrl(code, newPanel);
 
         return newPanel;
@@ -210,7 +220,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         return newPanel;
     }
 
-    private JPanel addCodeLines(JPanel panel, Codes code) {
+    private JPanel addCodeLines(Codes code, JPanel panel) {
         String[] codeLines = code.getCodeText().split("\n");
         int maxLineWidth = 0;
 
@@ -218,6 +228,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             JCheckBox newCB = new JCheckBox();
             newCB.setLabel(line);
             newCB.setActionCommand(line);
+            newCB.setAlignmentX( Component.LEFT_ALIGNMENT );
             panel.add(newCB);
             maxLineWidth = Math.max(maxLineWidth, this.getLinesWidth(line));
         }
