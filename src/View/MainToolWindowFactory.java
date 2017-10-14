@@ -255,7 +255,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
                     document.insertString(cursorOffset, code);
                 }
             }.execute();
-            throw new Exception();
         } catch(Exception e) {
             this.showGenericErrorDialog();
         }
