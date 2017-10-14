@@ -154,25 +154,24 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     public Boolean showResults(RecommendedCodes resultCodes) {
-        int height = 125;
         resultsArea.setBounds(mainContent.getBounds());
         resultsArea.setLayout(new BoxLayout(resultsArea, BoxLayout.Y_AXIS));
+        int height = 125;
+        int width = 10;
 
         for (Codes code: resultCodes.getCodes()) {
             JPanel newPanel = getPanel(code);
             System.out.println(newPanel.getHeight());
             height += newPanel.getHeight();
+            width = Math.max(width, newPanel.getWidth());
             resultsArea.add(newPanel);
         }
 
-        System.out.println(resultsArea.getHeight());
-//        mainContent.setSize(300, height);
-        mainContent.setPreferredSize(new Dimension(300, height));
-        System.out.println(mainContent.getHeight());
-
+        mainContent.setPreferredSize(new Dimension(width, height));
         resultsArea.setVisible(true);
+
         mainContent.revalidate();
-        resultsArea.repaint();
+        mainContent.repaint();
 
         stopLoading();
         return true;
@@ -188,7 +187,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         JPanel newPanel = new JPanel();
         newPanel = setupResultPanel(code, newPanel);
         newPanel = addCodeLines(newPanel, code);
-        System.out.println(newPanel.getHeight());
         newPanel = addCodeUrl(code, newPanel);
 
         return newPanel;
@@ -214,14 +212,29 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
     private JPanel addCodeLines(JPanel panel, Codes code) {
         String[] codeLines = code.getCodeText().split("\n");
+        int maxLineWidth = 0;
+
         for (String line: codeLines) {
             JCheckBox newCB = new JCheckBox();
             newCB.setLabel(line);
             newCB.setActionCommand(line);
             panel.add(newCB);
+            maxLineWidth = Math.max(maxLineWidth, this.getLinesWidth(line));
         }
-        panel.setSize(300, 40 + (codeLines.length * 21));
+
+        int width = getCodeWidth(code, maxLineWidth);
+        int height = 40 + (codeLines.length * 21);
+
+        panel.setSize(width, height);
         return panel;
+    }
+
+    private int getLinesWidth(String line) {
+        return line.length() * 10;
+    }
+
+    private int getCodeWidth(Codes code, int maxLinesWidth) {
+       return Math.max(this.getLinesWidth(code.getSourceLink()), maxLinesWidth);
     }
 
     private void insertSelectedCode(Project project) {
@@ -278,6 +291,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     public void showGenericErrorDialog() {
-        Messages.showErrorDialog("Some unexpected error occured, press OK and try again later", "Error");
+        Messages.showErrorDialog("Some unexpected error occurred, press OK and try again later", "Error");
     }
 }

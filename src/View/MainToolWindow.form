@@ -82,9 +82,13 @@
       <scrollpane id="d7f51" binding="scroll">
         <constraints border-constraint="Center"/>
         <properties>
-          <autoscrolls value="true"/>
-          <maximumSize width="32767" height="50"/>
-          <preferredSize width="315" height="50"/>
+          <autoscrolls value="false"/>
+          <focusTraversalPolicyProvider value="true"/>
+          <focusable value="false"/>
+          <horizontalScrollBarPolicy value="32"/>
+          <maximumSize width="320" height="50"/>
+          <opaque value="false"/>
+          <preferredSize width="320" height="50"/>
           <requestFocusEnabled value="false"/>
           <verticalScrollBarPolicy value="22"/>
           <wheelScrollingEnabled value="true"/>
