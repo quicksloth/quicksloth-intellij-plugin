@@ -35,6 +35,7 @@ import java.util.Objects;
 public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindowFactory {
 
     static public String ID = "QuickSloth";
+    private NetworkService networkService;
 
     private JPanel root;
     private JTextField queryField;
@@ -53,6 +54,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     public MainToolWindowFactory() {
         Color primaryColor = new JBColor(new Color(232, 111, 86), new Color(247, 76, 34));
         this.loading.setForeground(primaryColor);
+        networkService = new NetworkService();
         System.out.println("MainToolWindowFactory");
     }
 
@@ -94,8 +96,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         if (Objects.equals(searchButton.getText(), ButtonType.Search.toString())) {
             searchPerformed(project);
         } else if (Objects.equals(searchButton.getText(), ButtonType.Cancel.toString())) {
-//              CANCEL - TODO test
-            NetworkService.cancelEventDisconnecting(this);
+            cancelPerfomed();
         }
     }
 
@@ -138,12 +139,12 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         }
 
         if (requestCode != null ) {
-//            System.out.println(requestCode.getComments());
-//            System.out.println(requestCode.getLanguage());
-//            System.out.println(requestCode.getLibs());
-//            System.out.println(requestCode.getQuery());
-            NetworkService.getCodeRecommendation(requestCode, this);
+            networkService.getCodeRecommendation(requestCode, this);
         }
+    }
+
+    private void cancelPerfomed() {
+        networkService.cancelEventDisconnecting(this);
     }
 
     public void showResults(RecommendedCodes resultCodes) {
@@ -165,6 +166,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     public void cancelSearch() {
         this.stopLoading();
         queryField.setText("");
+        resultsArea.setVisible(false);
     }
 
     private JPanel getPanel(Codes code) {
