@@ -106,7 +106,7 @@
             <children>
               <grid id="828e6" binding="resultsArea" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="8" fill="2" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <alignmentX value="0.0"/>
@@ -118,7 +118,7 @@
                   <component id="116b9" class="javax.swing.JTextPane" binding="explain">
                     <constraints/>
                     <properties>
-                      <alignmentX value="0.0"/>
+                      <alignmentX value="0.5"/>
                       <dragEnabled value="false"/>
                       <editable value="false"/>
                       <enabled value="false"/>

@@ -163,6 +163,9 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         codesArea.setLayout(new BoxLayout(codesArea, BoxLayout.Y_AXIS));
         codesArea.setAlignmentX(Component.LEFT_ALIGNMENT);
 
+        explain.setAlignmentX(Component.LEFT_ALIGNMENT);
+        resultButtons.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         int height = 125;
         int width = 10;
 
@@ -171,12 +174,17 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             System.out.println(newPanel.getHeight());
             height += newPanel.getHeight();
             width = Math.max(width, newPanel.getWidth());
+            newPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
             codesArea.add(newPanel);
         }
 
         mainContent.setPreferredSize(new Dimension(width, height));
-        resultButtons.setPreferredSize(new Dimension(scroll.getWidth() - 40, 25));
-        resultButtons.setMinimumSize(new Dimension(scroll.getWidth() - 40, 25));
+
+//        TEST ----------
+//        explain.setPreferredSize(new Dimension(root.getWidth() - 40, -1));
+//        resultButtons.setPreferredSize(new Dimension(scroll.getWidth() - 40, 25));
+//        resultButtons.setMinimumSize(new Dimension(scroll.getWidth() - 40, 25));
+//        TEST ----------
 
         resultsArea.setVisible(true);
 
