@@ -228,7 +228,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         urlDesc.setEnabled(true);
         urlDesc.setDragEnabled(false);
         urlDesc.setEditable(false);
-        urlDesc.setLineWrap(true);
         urlDesc.setText("Url: " + code.getSourceLink());
         newPanel.add(urlDesc);
         return newPanel;
@@ -242,7 +241,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
     private JPanel addCodeLines(Codes code, JPanel panel) {
         String[] codeLines = code. getCodeText().split("\n");
-        int width = 0;
+        int maxLineWidth = 0;
 
         panel.setLayout(new GridLayout(codeLines.length + 1, 0));
         panel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
@@ -253,9 +252,10 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             newCB.setActionCommand(line);
             newCB.setAlignmentX(JComponent.LEFT_ALIGNMENT);
             panel.add(newCB);
-            width = Math.max(width, this.getLinesWidth(line));
+            maxLineWidth = Math.max(maxLineWidth, this.getLinesWidth(line));
         }
 
+        int width = getCodeWidth(code, maxLineWidth);
         int height = 42 + (codeLines.length * 21);
 
         panel.setSize(width, height);
@@ -263,12 +263,12 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     private int getLinesWidth(String line) {
-        return line.length() * 9;
+        return line.length() * 10;
     }
 
-//    private int getCodeWidth(Codes code, int maxLinesWidth) {
-//       return Math.max(this.getLinesWidth(code.getSourceLink()), maxLinesWidth);
-//    }
+    private int getCodeWidth(Codes code, int maxLinesWidth) {
+       return Math.max(this.getLinesWidth(code.getSourceLink()), maxLinesWidth);
+    }
 
     private void insertSelectedCode(Project project) {
         String code = getSelectedCode();
