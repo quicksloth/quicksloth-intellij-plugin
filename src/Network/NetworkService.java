@@ -49,7 +49,6 @@ public class NetworkService {
     }
 
     public void cancelEventDisconnecting(MainToolWindowFactory toolwindow) {
-//        TODO test
         socket.disconnect();
         toolwindow.cancelSearch();
     }
