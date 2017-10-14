@@ -25,6 +25,8 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Objects;
@@ -68,8 +70,31 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         this.myToolWindow = toolWindow;
         this.myToolWindow.hide(null);
         ContentFactory contentFactory = SERVICE.getInstance();
+        setupRootPanel();
         Content content = contentFactory.createContent(root, "", false);
         toolWindow.getContentManager().addContent(content);
+    }
+
+    private void setupRootPanel() {
+        root.setLayout(new BorderLayout());
+
+        JScrollBar hbar = new JScrollBar(JScrollBar.HORIZONTAL, 30, 20, 0, 300);
+        JScrollBar vbar = new JScrollBar(JScrollBar.VERTICAL, 30, 40, 0, 300);
+
+        hbar.setUnitIncrement(2);
+        hbar.setBlockIncrement(1);
+
+        hbar.addAdjustmentListener(new MyAdjustmentListener());
+        vbar.addAdjustmentListener(new MyAdjustmentListener());
+
+        root.add(hbar, BorderLayout.SOUTH);
+        root.add(vbar, BorderLayout.EAST);
+    }
+
+    class MyAdjustmentListener implements AdjustmentListener {
+        public void adjustmentValueChanged(AdjustmentEvent e) {
+            System.out.println("    New Value is " + e.getValue() + "      ");
+        }
     }
 
     private void setupCTAs(@NotNull final Project project) {
