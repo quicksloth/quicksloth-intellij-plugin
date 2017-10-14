@@ -26,6 +26,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Objects;
 
 /**
  * Created by PamelaPeixinho on 26/03/17.
@@ -33,6 +34,8 @@ import java.awt.event.KeyEvent;
 public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindowFactory {
 
     static public String ID = "QuickSloth";
+    private NetworkService networkService;
+
     private JPanel root;
     private JTextField queryField;
     private JButton searchButton;
@@ -49,6 +52,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     public MainToolWindowFactory() {
         Color primaryColor = new JBColor(new Color(232, 111, 86), new Color(247, 76, 34));
         this.loading.setForeground(primaryColor);
+        networkService = new NetworkService();
         System.out.println("MainToolWindowFactory");
     }
 
@@ -68,7 +72,9 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     private void setupCTAs(@NotNull final Project project) {
-        searchButton.addActionListener(e -> searchPerformed(project));
+        searchButton.setText(ButtonType.Search.toString());
+        searchButton.addActionListener(e -> searchButtonEventListener(project));
+
         insertCode.addActionListener(e -> insertSelectedCode(project));
         copyClipboard.addActionListener(e -> copySelectedCodeToClipboard());
 
@@ -84,6 +90,14 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         });
     }
 
+    private void searchButtonEventListener(@NotNull Project project) {
+        if (Objects.equals(searchButton.getText(), ButtonType.Search.toString())) {
+            searchPerformed(project);
+        } else if (Objects.equals(searchButton.getText(), ButtonType.Cancel.toString())) {
+            cancelPerfomed();
+        }
+    }
+
     private void setupUIDetails() {
         this.loading.setUI(new StripedProgressBarUI(false, true));
         this.explain.setBackground(new Color(255, 255, 255, 0));
@@ -97,17 +111,19 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         this.queryField.setText(query);
     }
 
+    private void startLoading() {
+        resultsArea.setVisible(false);
+        loading.setVisible(true);
+        searchButton.disable();
+        queryField.disable();
+        searchButton.setText(ButtonType.Cancel.toString());
+    }
+
     private void stopLoading() {
         loading.setVisible(false);
         searchButton.enable();
         queryField.enable();
-    }
-
-    private void startLoading() {
-        this.resultsArea.setVisible(false);
-        this.loading.setVisible(true);
-        this.searchButton.disable();
-        this.queryField.disable();
+        searchButton.setText(ButtonType.Search.toString());
     }
 
     public void searchPerformed(Project project) {
@@ -121,12 +137,12 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         }
 
         if (requestCode != null ) {
-//            System.out.println(requestCode.getComments());
-//            System.out.println(requestCode.getLanguage());
-//            System.out.println(requestCode.getLibs());
-//            System.out.println(requestCode.getQuery());
-            NetworkService.getCodeRecommendation(requestCode, this);
+            networkService.getCodeRecommendation(requestCode, this);
         }
+    }
+
+    private void cancelPerfomed() {
+        networkService.cancelEventDisconnecting(this);
     }
 
     public void showResults(RecommendedCodes resultCodes) {
@@ -143,6 +159,12 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         resultsArea.repaint();
 
         stopLoading();
+    }
+
+    public void cancelSearch() {
+        this.stopLoading();
+        queryField.setText("");
+        resultsArea.setVisible(false);
     }
 
     private JPanel getPanel(Codes code) {
