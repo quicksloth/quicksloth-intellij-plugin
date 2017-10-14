@@ -50,6 +50,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private JTextPane explain;
     private JButton insertCode;
     private JButton copyClipboard;
+    private JScrollPane scroll;
     private ToolWindow myToolWindow;
 
     public MainToolWindowFactory() {
@@ -70,25 +71,8 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         this.myToolWindow = toolWindow;
         this.myToolWindow.hide(null);
         ContentFactory contentFactory = SERVICE.getInstance();
-        setupRootPanel();
         Content content = contentFactory.createContent(root, "", false);
         toolWindow.getContentManager().addContent(content);
-    }
-
-    private void setupRootPanel() {
-        root.setLayout(new BorderLayout());
-
-        JScrollBar hbar = new JScrollBar(JScrollBar.HORIZONTAL, 30, 20, 0, 300);
-        JScrollBar vbar = new JScrollBar(JScrollBar.VERTICAL, 30, 40, 0, 300);
-
-        hbar.setUnitIncrement(2);
-        hbar.setBlockIncrement(1);
-
-        hbar.addAdjustmentListener(new MyAdjustmentListener());
-        vbar.addAdjustmentListener(new MyAdjustmentListener());
-
-        root.add(hbar, BorderLayout.SOUTH);
-        root.add(vbar, BorderLayout.EAST);
     }
 
     class MyAdjustmentListener implements AdjustmentListener {
