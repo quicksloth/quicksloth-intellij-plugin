@@ -234,16 +234,16 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     private JPanel setupResultPanel(Codes code, JPanel newPanel) {
-        newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
+//        newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
         newPanel.setBorder(new TitledBorder("Code Score: " + (code.getScore() * 100) + "%"));
         return newPanel;
     }
 
     private JPanel addCodeLines(Codes code, JPanel panel) {
-        String[] codeLines = code.getCodeText().split("\n");
+        String[] codeLines = code. getCodeText().split("\n");
         int maxLineWidth = 0;
 
-        panel.setLayout(new GridLayout(codeLines.length, 1));
+        panel.setLayout(new GridLayout(codeLines.length + 1, 0));
         panel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 
         for (String line: codeLines) {
