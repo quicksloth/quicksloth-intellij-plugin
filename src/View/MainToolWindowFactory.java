@@ -67,6 +67,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         setupCTAs(project);
         setupUIDetails();
         resultsArea.setVisible(false);
+        scroll.setBorder(null);
     }
 
     private void setupToolWindow(@NotNull ToolWindow toolWindow) {
