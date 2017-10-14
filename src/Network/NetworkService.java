@@ -33,13 +33,13 @@ public class NetworkService extends AnAction {
         connectAndCallEvent(requestCode, toolwindow);
     }
 
-    static public void cancelEventDisconnecting() {
+    static public void cancelEventDisconnecting(MainToolWindowFactory toolwindow) {
 //        TODO test
         Socket socket = null;
         try {
             socket = IO.socket("http://0.0.0.0:10443/code-recommendations");
-            socket.on(Socket.EVENT_DISCONNECT, args12 -> System.out.println("DISCONNECT SOCKET"));
             socket.disconnect();
+            toolwindow.cancelSearch();
         } catch (URISyntaxException e1) {
             e1.printStackTrace();
         }

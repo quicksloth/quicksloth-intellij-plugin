@@ -95,7 +95,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             searchPerformed(project);
         } else if (Objects.equals(searchButton.getText(), ButtonType.Cancel.toString())) {
 //              CANCEL - TODO test
-            NetworkService.cancelEventDisconnecting();
+            NetworkService.cancelEventDisconnecting(this);
         }
     }
 
@@ -117,14 +117,14 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         loading.setVisible(true);
         searchButton.disable();
         queryField.disable();
-        searchButton.setText("Cancel");
+        searchButton.setText(ButtonType.Cancel.toString());
     }
 
     private void stopLoading() {
         loading.setVisible(false);
         searchButton.enable();
         queryField.enable();
-        searchButton.setText("Search");
+        searchButton.setText(ButtonType.Search.toString());
     }
 
     public void searchPerformed(Project project) {
@@ -160,6 +160,11 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         resultsArea.repaint();
 
         stopLoading();
+    }
+
+    public void cancelSearch() {
+        this.stopLoading();
+        queryField.setText("");
     }
 
     private JPanel getPanel(Codes code) {
