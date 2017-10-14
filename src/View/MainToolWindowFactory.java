@@ -62,9 +62,11 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
+        System.out.println("createToolWindowContent");
         setupToolWindow(toolWindow);
         setupCTAs(project);
         setupUIDetails();
+        resultsArea.setVisible(false);
     }
 
     private void setupToolWindow(@NotNull ToolWindow toolWindow) {
@@ -147,8 +149,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             if (requestCode != null) {
                 networkService.getCodeRecommendation(requestCode, this::showResults, this::showGenericErrorDialog);
             }
-        }
-        catch (Exception e) {
+        } catch (Error e) {
             this.showGenericErrorDialog();
         }
     }
