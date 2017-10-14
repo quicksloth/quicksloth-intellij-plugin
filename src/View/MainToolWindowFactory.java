@@ -28,7 +28,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Objects;
 
-
 /**
  * Created by PamelaPeixinho on 26/03/17.
  */
@@ -49,7 +48,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private JButton insertCode;
     private JButton copyClipboard;
     private ToolWindow myToolWindow;
-
 
     public MainToolWindowFactory() {
         Color primaryColor = new JBColor(new Color(232, 111, 86), new Color(247, 76, 34));
