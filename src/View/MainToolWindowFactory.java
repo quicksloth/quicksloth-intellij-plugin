@@ -138,7 +138,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         }
 
         if (requestCode != null ) {
-            networkService.getCodeRecommendation(requestCode, this::showResults);
+            networkService.getCodeRecommendation(requestCode, this::showResults, this::showGenericErrorDialog);
         }
     }
 
@@ -252,11 +252,11 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
                 }
             }.execute();
         } catch(Exception e) {
-            this.showGenericErrorDialog(project);
+            this.showGenericErrorDialog();
         }
     }
 
-    private void showGenericErrorDialog(Project project) {
-        Messages.showErrorDialog(project, "ok", "Some error occured");
+    public void showGenericErrorDialog() {
+        Messages.showErrorDialog("Error", "Some unexpected error occured, press OK and try again later");
     }
 }

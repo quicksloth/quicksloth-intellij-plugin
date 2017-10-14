@@ -7,8 +7,6 @@ import com.google.gson.Gson;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 
-import java.net.URISyntaxException;
-
 /**
  * NetworkService is responsible to do
  * connection (websocket) with recommendation server
@@ -20,7 +18,9 @@ public class NetworkService {
     public NetworkService() {
     }
 
-    public void getCodeRecommendation(RequestCode requestCode, Function<RecommendedCodes, Boolean> function) {
+    public void getCodeRecommendation(RequestCode requestCode,
+                                      Function<RecommendedCodes, Boolean> resultFunction,
+                                      Runnable errorFunction) {
         System.out.println("GOING TO CONNECT");
         try {
             this.socket = IO.socket("http://0.0.0.0:10443/code-recommendations");
@@ -38,13 +38,14 @@ public class NetworkService {
                 Gson gson = new Gson();
                 RecommendedCodes resultCodes  = gson.fromJson((String) args[0], RecommendedCodes.class);
                 resultCodes.sortCodes();
-                function.apply(resultCodes);
+                resultFunction.apply(resultCodes);
                 finalSocket.disconnect();
             });
 
             socket.connect();
-        } catch (URISyntaxException e1) {
+        } catch (Exception e1) {
             e1.printStackTrace();
+            errorFunction.run();
         }
     }
 
