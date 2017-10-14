@@ -213,10 +213,14 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     private void copySelectedCodeToClipboard() {
-        String code = getSelectedCode();
-        StringSelection stringSelection = new StringSelection(code);
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(stringSelection, null);
+        try {
+            String code = getSelectedCode();
+            StringSelection stringSelection = new StringSelection(code);
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clipboard.setContents(stringSelection, null);
+        } catch (Exception e) {
+            this.showGenericErrorDialog();
+        }
     }
 
     @NotNull
@@ -251,12 +255,13 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
                     document.insertString(cursorOffset, code);
                 }
             }.execute();
+            throw new Exception();
         } catch(Exception e) {
             this.showGenericErrorDialog();
         }
     }
 
     public void showGenericErrorDialog() {
-        Messages.showErrorDialog("Error", "Some unexpected error occured, press OK and try again later");
+        Messages.showErrorDialog("Some unexpected error occured, press OK and try again later", "Error");
     }
 }
