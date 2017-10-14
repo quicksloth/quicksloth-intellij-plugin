@@ -137,15 +137,15 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         }
 
         if (requestCode != null ) {
-            networkService.getCodeRecommendation(requestCode, this);
+            networkService.getCodeRecommendation(requestCode, this::showResults);
         }
     }
 
     private void cancelPerfomed() {
-        networkService.cancelEventDisconnecting(this);
+        networkService.cancelEventDisconnecting(this::cancelSearch);
     }
 
-    public void showResults(RecommendedCodes resultCodes) {
+    public Boolean showResults(RecommendedCodes resultCodes) {
         resultsArea.setBounds(mainContent.getBounds());
         resultsArea.setLayout(new BoxLayout(resultsArea, BoxLayout.Y_AXIS));
 
@@ -159,6 +159,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         resultsArea.repaint();
 
         stopLoading();
+        return true;
     }
 
     public void cancelSearch() {
