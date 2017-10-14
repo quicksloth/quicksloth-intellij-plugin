@@ -133,8 +133,12 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
         RequestCode requestCode = new RequestCode(queryField.getText());
 
-        if (project != null) {
-            requestCode = new CodeExtractor().extractAST(project, requestCode);
+        try {
+            if (project != null) {
+                requestCode = new CodeExtractor().extractAST(project, requestCode);
+            }
+        } catch (Exception e) {
+            this.showGenericErrorDialog();
         }
 
         if (requestCode != null ) {
