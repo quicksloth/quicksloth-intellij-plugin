@@ -181,7 +181,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         explain.setAlignmentX(Component.LEFT_ALIGNMENT);
         resultButtons.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        int height = 120;
+        int height = 135;
         int width = 10;
 
         for (Codes code: resultCodes.getCodes()) {
