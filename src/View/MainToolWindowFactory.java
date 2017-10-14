@@ -188,6 +188,8 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             JPanel newPanel = getPanel(code);
 
             height += newPanel.getHeight();
+            System.out.println(height);
+
             width = Math.max(width, newPanel.getWidth());
 
             newPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -201,6 +203,9 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         }
 
         mainContent.setPreferredSize(new Dimension(width, height));
+        mainContent.setMinimumSize(new Dimension(width, height));
+        mainContent.setMaximumSize(new Dimension(width, height));
+
         resultsArea.setVisible(true);
 
         mainContent.revalidate();
@@ -263,7 +268,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     private int getLinesWidth(String line) {
-        return line.length() * 10;
+        return line.length() * 9;
     }
 
     private int getCodeWidth(Codes code, int maxLinesWidth) {
