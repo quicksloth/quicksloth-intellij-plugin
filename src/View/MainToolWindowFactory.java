@@ -133,21 +133,23 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     public void searchPerformed(Project project) {
-        System.out.println("queryField " + queryField.getText());
-        this.startLoading();
-
-        RequestCode requestCode = new RequestCode(queryField.getText());
-
         try {
+
+            System.out.println("queryField " + queryField.getText());
+            this.startLoading();
+
+            RequestCode requestCode = new RequestCode(queryField.getText());
+
             if (project != null) {
                 requestCode = new CodeExtractor().extractAST(project, requestCode);
             }
-        } catch (Exception e) {
-            this.showGenericErrorDialog();
-        }
 
-        if (requestCode != null ) {
-            networkService.getCodeRecommendation(requestCode, this::showResults, this::showGenericErrorDialog);
+            if (requestCode != null) {
+                networkService.getCodeRecommendation(requestCode, this::showResults, this::showGenericErrorDialog);
+            }
+        }
+        catch (Exception e) {
+            this.showGenericErrorDialog();
         }
     }
 
@@ -159,14 +161,16 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         resultsArea.setBounds(mainContent.getBounds());
         resultsArea.setLayout(new BoxLayout(resultsArea, BoxLayout.Y_AXIS));
         resultsArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+        resultsArea.setAlignmentY(Component.TOP_ALIGNMENT);
 
         codesArea.setLayout(new BoxLayout(codesArea, BoxLayout.Y_AXIS));
         codesArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+        codesArea.setAlignmentY(Component.TOP_ALIGNMENT);
 
         explain.setAlignmentX(Component.LEFT_ALIGNMENT);
         resultButtons.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        int height = 125;
+        int height = 120;
         int width = 10;
 
         for (Codes code: resultCodes.getCodes()) {
@@ -223,8 +227,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private JPanel setupResultPanel(Codes code, JPanel newPanel) {
         newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
         newPanel.setBorder(new TitledBorder("Code Score: " + (code.getScore() * 100) + "%"));
-        newPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        newPanel.setAlignmentY(Component.TOP_ALIGNMENT);
         return newPanel;
     }
 
@@ -237,6 +239,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             newCB.setLabel(line);
             newCB.setActionCommand(line);
             newCB.setAlignmentX( Component.LEFT_ALIGNMENT );
+            newCB.setHorizontalAlignment(0);
             panel.add(newCB);
             maxLineWidth = Math.max(maxLineWidth, this.getLinesWidth(line));
         }
