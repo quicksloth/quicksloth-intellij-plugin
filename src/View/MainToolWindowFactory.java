@@ -62,9 +62,12 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
+        System.out.println("createToolWindowContent");
         setupToolWindow(toolWindow);
         setupCTAs(project);
         setupUIDetails();
+        resultsArea.setVisible(false);
+        scroll.setBorder(null);
     }
 
     private void setupToolWindow(@NotNull ToolWindow toolWindow) {
@@ -133,21 +136,22 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     public void searchPerformed(Project project) {
-        System.out.println("queryField " + queryField.getText());
-        this.startLoading();
-
-        RequestCode requestCode = new RequestCode(queryField.getText());
-
         try {
+
+            System.out.println("queryField " + queryField.getText());
+            this.startLoading();
+
+            RequestCode requestCode = new RequestCode(queryField.getText());
+
             if (project != null) {
                 requestCode = new CodeExtractor().extractAST(project, requestCode);
             }
-        } catch (Exception e) {
-            this.showGenericErrorDialog();
-        }
 
-        if (requestCode != null ) {
-            networkService.getCodeRecommendation(requestCode, this::showResults, this::showGenericErrorDialog);
+            if (requestCode != null) {
+                networkService.getCodeRecommendation(requestCode, this::showResults, this::showGenericErrorDialog);
+            }
+        } catch (Error e) {
+            this.showGenericErrorDialog();
         }
     }
 
@@ -156,35 +160,58 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     public Boolean showResults(RecommendedCodes resultCodes) {
+        try {
+            createResultsUI(resultCodes);
+        } catch (Exception e) {
+            this.showGenericErrorDialog();
+        }
+
+        stopLoading();
+        return true;
+    }
+
+    private void createResultsUI(RecommendedCodes resultCodes) {
         resultsArea.setBounds(mainContent.getBounds());
         resultsArea.setLayout(new BoxLayout(resultsArea, BoxLayout.Y_AXIS));
         resultsArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+        resultsArea.setAlignmentY(Component.TOP_ALIGNMENT);
 
         codesArea.setLayout(new BoxLayout(codesArea, BoxLayout.Y_AXIS));
         codesArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+        codesArea.setAlignmentY(Component.TOP_ALIGNMENT);
 
-        int height = 125;
+        explain.setAlignmentX(Component.LEFT_ALIGNMENT);
+        resultButtons.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        int height = 115;
         int width = 10;
 
         for (Codes code: resultCodes.getCodes()) {
             JPanel newPanel = getPanel(code);
-            System.out.println(newPanel.getHeight());
+
             height += newPanel.getHeight();
+            System.out.println(height);
+
             width = Math.max(width, newPanel.getWidth());
+
+            newPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            for (Component component: newPanel.getComponents()) {
+                if (component instanceof JCheckBox) {
+                    ((JCheckBox) component).setAlignmentX(Component.LEFT_ALIGNMENT);
+                }
+            }
+
             codesArea.add(newPanel);
         }
 
         mainContent.setPreferredSize(new Dimension(width, height));
-        resultButtons.setPreferredSize(new Dimension(scroll.getWidth() - 40, 25));
-        resultButtons.setMinimumSize(new Dimension(scroll.getWidth() - 40, 25));
+        mainContent.setMinimumSize(new Dimension(width, height));
+        mainContent.setMaximumSize(new Dimension(width, height));
 
         resultsArea.setVisible(true);
 
         mainContent.revalidate();
         mainContent.repaint();
-
-        stopLoading();
-        return true;
     }
 
     public void cancelSearch() {
@@ -195,6 +222,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
     private JPanel getPanel(Codes code) {
         JPanel newPanel = new JPanel();
+        newPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         newPanel = setupResultPanel(code, newPanel);
         newPanel = addCodeLines(code, newPanel);
         newPanel = addCodeUrl(code, newPanel);
@@ -213,35 +241,36 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     private JPanel setupResultPanel(Codes code, JPanel newPanel) {
-        newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
+//        newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
         newPanel.setBorder(new TitledBorder("Code Score: " + (code.getScore() * 100) + "%"));
-        newPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        newPanel.setAlignmentY(Component.TOP_ALIGNMENT);
         return newPanel;
     }
 
     private JPanel addCodeLines(Codes code, JPanel panel) {
-        String[] codeLines = code.getCodeText().split("\n");
+        String[] codeLines = code. getCodeText().split("\n");
         int maxLineWidth = 0;
+
+        panel.setLayout(new GridLayout(codeLines.length + 1, 0));
+        panel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 
         for (String line: codeLines) {
             JCheckBox newCB = new JCheckBox();
             newCB.setLabel(line);
             newCB.setActionCommand(line);
-            newCB.setAlignmentX( Component.LEFT_ALIGNMENT );
+            newCB.setAlignmentX(JComponent.LEFT_ALIGNMENT);
             panel.add(newCB);
             maxLineWidth = Math.max(maxLineWidth, this.getLinesWidth(line));
         }
 
         int width = getCodeWidth(code, maxLineWidth);
-        int height = 40 + (codeLines.length * 21);
+        int height = 42 + (codeLines.length * 21);
 
         panel.setSize(width, height);
         return panel;
     }
 
     private int getLinesWidth(String line) {
-        return line.length() * 10;
+        return line.length() * 9;
     }
 
     private int getCodeWidth(Codes code, int maxLinesWidth) {
