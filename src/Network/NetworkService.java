@@ -2,7 +2,7 @@ package Network;
 
 import Models.RecommendedCodes;
 import Models.RequestCode;
-import View.MainToolWindowFactory;
+import com.google.common.base.Function;
 import com.google.gson.Gson;
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -20,7 +20,7 @@ public class NetworkService {
     public NetworkService() {
     }
 
-    public void getCodeRecommendation(RequestCode requestCode, MainToolWindowFactory toolwindow) {
+    public void getCodeRecommendation(RequestCode requestCode, Function<RecommendedCodes, Boolean> function) {
         System.out.println("GOING TO CONNECT");
         try {
             this.socket = IO.socket("http://0.0.0.0:10443/code-recommendations");
@@ -38,7 +38,7 @@ public class NetworkService {
                 Gson gson = new Gson();
                 RecommendedCodes resultCodes  = gson.fromJson((String) args[0], RecommendedCodes.class);
                 resultCodes.sortCodes();
-                toolwindow.showResults(resultCodes);
+                function.apply(resultCodes);
                 finalSocket.disconnect();
             });
 
@@ -48,8 +48,8 @@ public class NetworkService {
         }
     }
 
-    public void cancelEventDisconnecting(MainToolWindowFactory toolwindow) {
+    public void cancelEventDisconnecting(Runnable function) {
         socket.disconnect();
-        toolwindow.cancelSearch();
+        function.run();
     }
 }
