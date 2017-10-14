@@ -12,6 +12,7 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.JBColor;
 import com.intellij.ui.content.Content;
@@ -132,12 +133,16 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
         RequestCode requestCode = new RequestCode(queryField.getText());
 
-        if (project != null) {
-            requestCode = new CodeExtractor().extractAST(project, requestCode);
+        try {
+            if (project != null) {
+                requestCode = new CodeExtractor().extractAST(project, requestCode);
+            }
+        } catch (Exception e) {
+            this.showGenericErrorDialog();
         }
 
         if (requestCode != null ) {
-            networkService.getCodeRecommendation(requestCode, this::showResults);
+            networkService.getCodeRecommendation(requestCode, this::showResults, this::showGenericErrorDialog);
         }
     }
 
@@ -212,10 +217,14 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     private void copySelectedCodeToClipboard() {
-        String code = getSelectedCode();
-        StringSelection stringSelection = new StringSelection(code);
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(stringSelection, null);
+        try {
+            String code = getSelectedCode();
+            StringSelection stringSelection = new StringSelection(code);
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clipboard.setContents(stringSelection, null);
+        } catch (Exception e) {
+            this.showGenericErrorDialog();
+        }
     }
 
     @NotNull
@@ -243,11 +252,19 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         final int cursorOffset = editor.getCaretModel().getOffset();
         final Document document = editor.getDocument();
 
-        new WriteCommandAction(project) {
-            @Override
-            protected void run(@NotNull Result result) throws Throwable {
-                document.insertString(cursorOffset, code);
-            }
-        }.execute();
+        try {
+            new WriteCommandAction(project) {
+                @Override
+                protected void run(@NotNull Result result) throws Throwable {
+                    document.insertString(cursorOffset, code);
+                }
+            }.execute();
+        } catch(Exception e) {
+            this.showGenericErrorDialog();
+        }
+    }
+
+    public void showGenericErrorDialog() {
+        Messages.showErrorDialog("Some unexpected error occured, press OK and try again later", "Error");
     }
 }
