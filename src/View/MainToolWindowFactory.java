@@ -25,8 +25,6 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Objects;
@@ -51,6 +49,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private JButton insertCode;
     private JButton copyClipboard;
     private JScrollPane scroll;
+    private JPanel resultButtons;
     private ToolWindow myToolWindow;
 
     public MainToolWindowFactory() {
@@ -73,12 +72,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         ContentFactory contentFactory = SERVICE.getInstance();
         Content content = contentFactory.createContent(root, "", false);
         toolWindow.getContentManager().addContent(content);
-    }
-
-    class MyAdjustmentListener implements AdjustmentListener {
-        public void adjustmentValueChanged(AdjustmentEvent e) {
-            System.out.println("    New Value is " + e.getValue() + "      ");
-        }
     }
 
     private void setupCTAs(@NotNull final Project project) {
@@ -122,6 +115,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     private void startLoading() {
+        mainContent.setPreferredSize(new Dimension(300, 95));
         resultsArea.setVisible(false);
         loading.setVisible(true);
         searchButton.disable();
@@ -160,16 +154,24 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     public Boolean showResults(RecommendedCodes resultCodes) {
+        int height = 125;
         resultsArea.setBounds(mainContent.getBounds());
         resultsArea.setLayout(new BoxLayout(resultsArea, BoxLayout.Y_AXIS));
 
         for (Codes code: resultCodes.getCodes()) {
             JPanel newPanel = getPanel(code);
+            System.out.println(newPanel.getHeight());
+            height += newPanel.getHeight();
             resultsArea.add(newPanel);
         }
 
+        System.out.println(resultsArea.getHeight());
+//        mainContent.setSize(300, height);
+        mainContent.setPreferredSize(new Dimension(300, height));
+        System.out.println(mainContent.getHeight());
+
         resultsArea.setVisible(true);
-        resultsArea.revalidate();
+        mainContent.revalidate();
         resultsArea.repaint();
 
         stopLoading();
@@ -186,6 +188,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         JPanel newPanel = new JPanel();
         newPanel = setupResultPanel(code, newPanel);
         newPanel = addCodeLines(newPanel, code);
+        System.out.println(newPanel.getHeight());
         newPanel = addCodeUrl(code, newPanel);
 
         return newPanel;
@@ -193,7 +196,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
     private JPanel addCodeUrl(Codes code, JPanel newPanel) {
         JTextArea urlDesc = new JTextArea();
-        urlDesc.setEnabled(false);
+        urlDesc.setEnabled(true);
         urlDesc.setDragEnabled(false);
         urlDesc.setEditable(false);
         urlDesc.setText("Url: " + code.getSourceLink());
@@ -217,6 +220,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             newCB.setActionCommand(line);
             panel.add(newCB);
         }
+        panel.setSize(300, 40 + (codeLines.length * 21));
         return panel;
     }
 

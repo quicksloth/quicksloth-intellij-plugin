@@ -87,7 +87,7 @@
           <preferredSize width="315" height="50"/>
           <requestFocusEnabled value="false"/>
           <verticalScrollBarPolicy value="22"/>
-          <wheelScrollingEnabled value="false"/>
+          <wheelScrollingEnabled value="true"/>
         </properties>
         <border type="none"/>
         <children>
@@ -96,8 +96,8 @@
             <constraints/>
             <properties>
               <autoscrolls value="true"/>
-              <minimumSize width="300" height="1000"/>
-              <preferredSize width="300" height="1000"/>
+              <minimumSize width="300" height="95"/>
+              <preferredSize width="300" height="95"/>
             </properties>
             <border type="none"/>
             <children>
@@ -131,7 +131,7 @@
                       <JEditorPane.w3cLengthUnits class="java.lang.Boolean" value="true"/>
                     </clientProperties>
                   </component>
-                  <grid id="4a082" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="4a082" binding="resultButtons" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints/>
                     <properties/>
