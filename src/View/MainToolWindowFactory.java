@@ -27,6 +27,11 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Objects;
 
 /**
@@ -231,17 +236,36 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     private JPanel addCodeUrl(Codes code, JPanel newPanel) {
-        JTextArea urlDesc = new JTextArea();
+        JLabel urlDesc = new JLabel();
         urlDesc.setEnabled(true);
-        urlDesc.setDragEnabled(false);
-        urlDesc.setEditable(false);
-        urlDesc.setText("Url: " + code.getSourceLink());
+        urlDesc.setText("<html>Url: <a href=\"\">" + code.getSourceLink() + "</a></html>");
+        urlDesc.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        goToSourceLink(code, urlDesc);
+
         newPanel.add(urlDesc);
         return newPanel;
     }
 
+    private void goToSourceLink(final Codes code, JLabel urlDesc) {
+        urlDesc.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    try {
+                        Desktop.getDesktop().browse(new URI(code.getSourceLink()));
+                    } catch (IOException ex) {
+                        showGenericErrorDialog();
+                    }
+                }
+                catch (URISyntaxException ex) {
+                    showGenericErrorDialog();
+                }
+            }
+        });
+    }
+
     private JPanel setupResultPanel(Codes code, JPanel newPanel) {
-//        newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
         newPanel.setBorder(new TitledBorder("Code Score: " + (code.getScore() * 100) + "%"));
         return newPanel;
     }
