@@ -266,7 +266,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     private JPanel setupResultPanel(Codes code, JPanel newPanel) {
-//        newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
         newPanel.setBorder(new TitledBorder("Code Score: " + (code.getScore() * 100) + "%"));
         return newPanel;
     }
