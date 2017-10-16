@@ -77,7 +77,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
     private void setupToolWindow(@NotNull ToolWindow toolWindow) {
         this.myToolWindow = toolWindow;
-        this.myToolWindow.hide(null);
         ContentFactory contentFactory = SERVICE.getInstance();
         Content content = contentFactory.createContent(root, "", false);
         toolWindow.getContentManager().addContent(content);
