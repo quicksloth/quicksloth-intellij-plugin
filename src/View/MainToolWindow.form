@@ -163,8 +163,8 @@
                     <properties>
                       <autoscrolls value="false"/>
                       <doubleBuffered value="false"/>
-                      <focusTraversalPolicyProvider value="false"/>
-                      <focusable value="false"/>
+                      <focusTraversalPolicyProvider value="true"/>
+                      <focusable value="true"/>
                       <horizontalScrollBarPolicy value="32"/>
                       <inheritsPopupMenu value="true"/>
                       <opaque value="false"/>
