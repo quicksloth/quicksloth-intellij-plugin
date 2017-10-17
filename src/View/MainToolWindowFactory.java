@@ -187,7 +187,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         explain.setAlignmentX(Component.LEFT_ALIGNMENT);
         resultButtons.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        int height = 115;
+        int height = 0;
         int width = 10;
 
         for (Codes code: resultCodes.getCodes()) {
@@ -208,14 +208,14 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             codesArea.add(newPanel);
         }
 
-        mainContent.setPreferredSize(new Dimension(width, height));
-        mainContent.setMinimumSize(new Dimension(width, height));
-        mainContent.setMaximumSize(new Dimension(width, height));
+        codesArea.setPreferredSize(new Dimension(width, height));
+        codesArea.setMinimumSize(new Dimension(width, height));
+        codesArea.setMaximumSize(new Dimension(width, height));
 
         resultsArea.setVisible(true);
 
-        mainContent.revalidate();
-        mainContent.repaint();
+        resultsArea.revalidate();
+        resultsArea.repaint();
     }
 
     public void cancelSearch() {

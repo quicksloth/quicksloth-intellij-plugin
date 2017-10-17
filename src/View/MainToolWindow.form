@@ -79,34 +79,27 @@
           </component>
         </children>
       </grid>
-      <scrollpane id="d7f51" binding="scroll">
+      <grid id="11ea7" binding="mainContent" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="16" left="8" bottom="0" right="8"/>
         <constraints border-constraint="Center"/>
         <properties>
-          <autoscrolls value="false"/>
-          <focusTraversalPolicyProvider value="true"/>
-          <focusable value="false"/>
-          <maximumSize width="320" height="50"/>
-          <opaque value="false"/>
-          <preferredSize width="320" height="50"/>
-          <requestFocusEnabled value="false"/>
-          <verticalScrollBarPolicy value="22"/>
-          <wheelScrollingEnabled value="true"/>
+          <autoscrolls value="true"/>
+          <minimumSize width="300" height="95"/>
+          <preferredSize width="300" height="95"/>
         </properties>
         <border type="none"/>
         <children>
-          <grid id="11ea7" binding="mainContent" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="16" left="8" bottom="0" right="8"/>
-            <constraints/>
-            <properties>
-              <autoscrolls value="true"/>
-              <minimumSize width="300" height="95"/>
-              <preferredSize width="300" height="95"/>
-            </properties>
+          <grid id="3fdf5" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
             <border type="none"/>
             <children>
               <grid id="828e6" binding="resultsArea" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="8" fill="2" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="8" fill="2" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <alignmentX value="0.0"/>
@@ -165,20 +158,27 @@
                       </component>
                     </children>
                   </grid>
-                  <grid id="48625" binding="codesArea" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="0" left="0" bottom="0" right="0"/>
+                  <scrollpane id="1576f" binding="scroll">
                     <constraints/>
-                    <properties>
-                      <alignmentX value="0.0"/>
-                    </properties>
+                    <properties/>
                     <border type="none"/>
-                    <children/>
-                  </grid>
+                    <children>
+                      <grid id="48625" binding="codesArea" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                        <margin top="0" left="0" bottom="0" right="0"/>
+                        <constraints/>
+                        <properties>
+                          <alignmentX value="0.0"/>
+                        </properties>
+                        <border type="none"/>
+                        <children/>
+                      </grid>
+                    </children>
+                  </scrollpane>
                 </children>
               </grid>
               <component id="72ce3" class="javax.swing.JProgressBar" binding="loading">
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
                     <minimum-size width="156" height="-1"/>
                     <preferred-size width="156" height="-1"/>
                     <maximum-size width="156" height="-1"/>
@@ -193,7 +193,7 @@
             </children>
           </grid>
         </children>
-      </scrollpane>
+      </grid>
     </children>
   </grid>
 </form>
