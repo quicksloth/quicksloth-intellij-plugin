@@ -319,7 +319,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     @NotNull
     private String getSelectedCode() {
         String code = "";
-        for (Component component: this.resultsArea.getComponents()) {
+        for (Component component: this.codesArea.getComponents()) {
             if (component instanceof JPanel) {
                 for (Component childComponents: ((JPanel) component).getComponents()) {
                     if (childComponents instanceof JCheckBox) {
