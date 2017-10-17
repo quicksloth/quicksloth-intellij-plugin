@@ -77,7 +77,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
     private void setupToolWindow(@NotNull ToolWindow toolWindow) {
         this.myToolWindow = toolWindow;
-        this.myToolWindow.hide(null);
         ContentFactory contentFactory = SERVICE.getInstance();
         Content content = contentFactory.createContent(root, "", false);
         toolWindow.getContentManager().addContent(content);
@@ -320,7 +319,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     @NotNull
     private String getSelectedCode() {
         String code = "";
-        for (Component component: this.resultsArea.getComponents()) {
+        for (Component component: this.codesArea.getComponents()) {
             if (component instanceof JPanel) {
                 for (Component childComponents: ((JPanel) component).getComponents()) {
                     if (childComponents instanceof JCheckBox) {

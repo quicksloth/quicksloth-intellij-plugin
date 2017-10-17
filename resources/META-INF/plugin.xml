@@ -1,32 +1,27 @@
 <idea-plugin version="2">
-  <id>com.your.company.unique.plugin.id</id>
-  <name>Plugin display name here</name>
-  <version>1.0</version>
-  <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+  <id>com.br.quicksloth.code.recommendation</id>
+  <name>QuickSloth</name>
+  <version>0.1</version>
+  <vendor email="pamelapeixinho@outlook.com" url="https://github.com/quicksloth">QuickSloth</vendor>
 
   <description><![CDATA[
-      Enter short description for your plugin here.<br>
-      <em>most HTML tags may be used</em>
+      Code recommendations based on out modular evaluation system.<br>
     ]]></description>
 
-  <change-notes><![CDATA[
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>
-    ]]>
-  </change-notes>
+  <!--<change-notes><![CDATA[-->
+      <!--Add change notes here.<br>-->
+      <!--<em>most HTML tags may be used</em>-->
+    <!--]]>-->
+  <!--</change-notes>-->
 
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
   <idea-version since-build="141.0"/>
 
-  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
-       on how to target different products -->
-  <!--&lt;!&ndash; uncomment to enable plugin in all products-->
+  <!-- enable plugin in all products-->
   <depends>com.intellij.modules.lang</depends>
-  <depends>com.intellij.modules.python</depends>
-  <!--&ndash;&gt;-->
+  <!--<depends>com.intellij.modules.python</depends>-->
 
   <extensions defaultExtensionNs="com.intellij">
-    <!-- Add your extensions here -->
     <toolWindow id="QuickSloth"
                 anchor="right"
                 factoryClass="View.MainToolWindowFactory"
@@ -39,10 +34,10 @@
             <!--description="try to import and connect">-->
       <!--<add-to-group group-id="ToolsMenu" anchor="first"/>-->
     <!--</action>-->
-    <!--<action id="CodeExtraction" class="Controllers.Utils.CodeExtractorAction" text="CodeExtractor"-->
-            <!--description="try to import and connect">-->
-      <!--<add-to-group group-id="ToolsMenu" anchor="first"/>-->
-    <!--</action>-->
+    <action id="CodeExtraction" class="Controllers.Utils.CodeExtractorAction" text="CodeExtractor"
+            description="try to import and connect">
+      <add-to-group group-id="ToolsMenu" anchor="first"/>
+    </action>
     <!--END TEMPORARY-->
     <action id="CodeRecommendations" class="Controllers.MainactionController" text="Code Recommendations"
             description="recommending source codes by query">
