@@ -184,8 +184,8 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         codesArea.setAlignmentX(Component.LEFT_ALIGNMENT);
         codesArea.setAlignmentY(Component.TOP_ALIGNMENT);
 
-        explain.setAlignmentX(Component.LEFT_ALIGNMENT);
-        resultButtons.setAlignmentX(Component.LEFT_ALIGNMENT);
+        explain.setAlignmentX(Component.CENTER_ALIGNMENT);
+        resultButtons.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         int height = 0;
         int width = 10;
@@ -293,7 +293,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     private int getLinesWidth(String line) {
-        return line.length() * 9;
+        return line.length() * 8;
     }
 
     private int getCodeWidth(Codes code, int maxLinesWidth) {

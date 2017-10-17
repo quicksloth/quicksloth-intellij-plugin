@@ -117,10 +117,10 @@
                       <enabled value="false"/>
                       <focusCycleRoot value="false"/>
                       <focusable value="false"/>
-                      <maximumSize width="290" height="80"/>
-                      <minimumSize width="290" height="80"/>
+                      <maximumSize width="300" height="80"/>
+                      <minimumSize width="300" height="80"/>
                       <opaque value="false"/>
-                      <preferredSize width="290" height="80"/>
+                      <preferredSize width="300" height="80"/>
                       <requestFocusEnabled value="false"/>
                       <selectedTextColor color="-6379608"/>
                       <text value="The following results were found as recommendation, each one has one score. Select the desired code lines and click on the button to add these in your code or you clipboard"/>
@@ -160,7 +160,17 @@
                   </grid>
                   <scrollpane id="1576f" binding="scroll">
                     <constraints/>
-                    <properties/>
+                    <properties>
+                      <autoscrolls value="false"/>
+                      <doubleBuffered value="false"/>
+                      <focusTraversalPolicyProvider value="false"/>
+                      <focusable value="false"/>
+                      <horizontalScrollBarPolicy value="32"/>
+                      <inheritsPopupMenu value="true"/>
+                      <opaque value="false"/>
+                      <verticalScrollBarPolicy value="22"/>
+                      <wheelScrollingEnabled value="true"/>
+                    </properties>
                     <border type="none"/>
                     <children>
                       <grid id="48625" binding="codesArea" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
