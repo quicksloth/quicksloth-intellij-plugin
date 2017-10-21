@@ -11,15 +11,17 @@ import com.intellij.openapi.wm.ToolWindowManager
 /**
  * Created by pamelaiupipeixinho on 16/09/17.
  */
-class MainactionController : AnAction() {
+class MainActionController : AnAction() {
     override fun actionPerformed(event: AnActionEvent) {
         val project = event.project?: return
         val queryText = Messages.showInputDialog(project,
-                "What is your Doubt?",
+                "What do you want to search?",
                 "Input Your Query",
                 Messages.getQuestionIcon())
 
-        showProcessingToolWindow(project, queryText)
+        if (queryText != null) {
+            showProcessingToolWindow(project, queryText)
+        }
     }
 
     private fun showProcessingToolWindow(project: Project, queryText: String?) {

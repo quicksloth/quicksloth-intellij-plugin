@@ -34,15 +34,15 @@
             <!--description="try to import and connect">-->
       <!--<add-to-group group-id="ToolsMenu" anchor="first"/>-->
     <!--</action>-->
-    <action id="CodeExtraction" class="Controllers.Utils.CodeExtractorAction" text="CodeExtractor"
-            description="try to import and connect">
-      <add-to-group group-id="ToolsMenu" anchor="first"/>
-    </action>
+    <!--<action id="CodeExtraction" class="Controllers.Utils.CodeExtractorAction" text="CodeExtractor"-->
+            <!--description="try to import and connect">-->
+      <!--<add-to-group group-id="ToolsMenu" anchor="first"/>-->
+    <!--</action>-->
     <!--END TEMPORARY-->
-    <action id="CodeRecommendations" class="Controllers.MainactionController" text="Code Recommendations"
-            description="recommending source codes by query">
-      <add-to-group group-id="ToolsMenu" anchor="first"/>
-      <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl meta M"/>
+    <action id="CodeRecommendations" class="Controllers.MainActionController" text="Code Recommendations"
+            description="recommending source codes by query - quicksloth">
+      <add-to-group group-id="CodeMenu" anchor="first"/>
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt k"/>
     </action>
   </actions>
 
