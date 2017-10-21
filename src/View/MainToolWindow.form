@@ -79,7 +79,7 @@
           </component>
         </children>
       </grid>
-      <grid id="11ea7" binding="mainContent" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="11ea7" binding="mainContent" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="16" left="8" bottom="0" right="8"/>
         <constraints border-constraint="Center"/>
         <properties>
@@ -91,7 +91,7 @@
         <children>
           <grid id="828e6" binding="resultsArea" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="8" fill="2" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="8" fill="2" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <alignmentX value="0.0"/>
@@ -180,7 +180,7 @@
           </grid>
           <component id="72ce3" class="javax.swing.JProgressBar" binding="loading">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+              <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
                 <minimum-size width="156" height="-1"/>
                 <preferred-size width="156" height="-1"/>
                 <maximum-size width="156" height="-1"/>
@@ -192,6 +192,45 @@
               <visible value="false"/>
             </properties>
           </component>
+          <grid id="20bd6" binding="emptyState" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <visible value="false"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="f8c8d" class="javax.swing.JLabel" binding="emptyIcon">
+                <constraints border-constraint="West"/>
+                <properties>
+                  <horizontalAlignment value="0"/>
+                  <icon value="images/empty_icon.png"/>
+                  <maximumSize width="75" height="74"/>
+                  <minimumSize width="75" height="74"/>
+                  <preferredSize width="75" height="74"/>
+                  <text value=""/>
+                  <verticalAlignment value="1"/>
+                </properties>
+              </component>
+              <component id="c98b2" class="javax.swing.JTextPane" binding="emptyDesc">
+                <constraints border-constraint="Center"/>
+                <properties>
+                  <dragEnabled value="false"/>
+                  <editable value="false"/>
+                  <enabled value="false"/>
+                  <focusCycleRoot value="false"/>
+                  <focusable value="false"/>
+                  <maximumSize width="700" height="10"/>
+                  <minimumSize width="300" height="20"/>
+                  <opaque value="false"/>
+                  <preferredSize width="600" height="25"/>
+                  <requestFocusEnabled value="false"/>
+                  <text value="Oops! Sorry, we didn't find any code to recommendate to you. Type another search."/>
+                </properties>
+              </component>
+            </children>
+          </grid>
         </children>
       </grid>
     </children>

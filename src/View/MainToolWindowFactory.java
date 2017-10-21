@@ -61,6 +61,9 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private JPanel resultButtons;
     private JPanel codesArea;
     private JPanel searchPanel;
+    private JPanel emptyState;
+    private JLabel emptyIcon;
+    private JTextPane emptyDesc;
     private ToolWindow myToolWindow;
 
     public MainToolWindowFactory() {
@@ -131,6 +134,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         codesArea.removeAll();
         mainContent.setPreferredSize(new Dimension(300, 95));
         resultsArea.setVisible(false);
+        emptyState.setVisible(false);
         loading.setVisible(true);
         searchButton.disable();
         queryField.disable();
@@ -170,13 +174,24 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
     public Boolean showResults(RecommendedCodes resultCodes) {
         try {
-            createResultsUI(resultCodes);
+            if (resultCodes.getCodes().size() > 0) {
+                createResultsUI(resultCodes);
+            } else {
+                showEmptyResult();
+            }
         } catch (Exception e) {
             this.showGenericErrorDialog();
         }
-
+        
         stopLoading();
         return true;
+    }
+
+    private void showEmptyResult () {
+        emptyDesc.setBackground(new Color(255, 255, 255, 0));
+        emptyState.setLayout(new GridLayout(2, 1));
+        emptyState.setAlignmentX(Component.CENTER_ALIGNMENT);
+        emptyState.setVisible(true);
     }
 
     private void createResultsUI(RecommendedCodes resultCodes) {
@@ -215,7 +230,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         codesArea.setMaximumSize(new Dimension(width, height));
 
         resultsArea.setVisible(true);
-
         resultsArea.revalidate();
         resultsArea.repaint();
     }
@@ -309,7 +323,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         int codeHeight = (codeLines.length * 21);
         int height = 56 + codeHeight;
 
-        System.out.println(height);
         codeCBs.setSize(width, codeHeight);
 
         panel.add(selectAllCB);
