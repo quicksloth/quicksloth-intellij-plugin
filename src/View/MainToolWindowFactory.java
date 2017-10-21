@@ -197,10 +197,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
         for (Codes code : resultCodes.getCodes()) {
             JPanel newPanel = getPanel(code);
-
             height += newPanel.getHeight();
-//            System.out.println(height);
-
             width = Math.max(width, newPanel.getWidth());
 
             newPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
