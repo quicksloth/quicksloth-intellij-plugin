@@ -134,6 +134,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         codesArea.removeAll();
         mainContent.setPreferredSize(new Dimension(300, 95));
         resultsArea.setVisible(false);
+        emptyState.setVisible(false);
         loading.setVisible(true);
         searchButton.disable();
         queryField.disable();
@@ -175,19 +176,20 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         try {
             if (resultCodes.getCodes().size() > 0) {
                 createResultsUI(resultCodes);
+            } else {
+                showEmptyResult();
             }
         } catch (Exception e) {
             this.showGenericErrorDialog();
         }
-
+        
         stopLoading();
-        showEmptyResult();
         return true;
     }
 
     private void showEmptyResult () {
         emptyDesc.setBackground(new Color(255, 255, 255, 0));
-        emptyState.setLayout(new BoxLayout(emptyState, BoxLayout.Y_AXIS));
+        emptyState.setLayout(new GridLayout(2, 1));
         emptyState.setAlignmentX(Component.CENTER_ALIGNMENT);
         emptyState.setVisible(true);
     }

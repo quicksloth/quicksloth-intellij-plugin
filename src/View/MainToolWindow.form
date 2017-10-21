@@ -197,13 +197,14 @@
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <visible value="true"/>
+              <visible value="false"/>
             </properties>
             <border type="none"/>
             <children>
               <component id="f8c8d" class="javax.swing.JLabel" binding="emptyIcon">
                 <constraints border-constraint="West"/>
                 <properties>
+                  <horizontalAlignment value="0"/>
                   <icon value="images/empty_icon.png"/>
                   <maximumSize width="75" height="74"/>
                   <minimumSize width="75" height="74"/>
@@ -215,9 +216,16 @@
               <component id="c98b2" class="javax.swing.JTextPane" binding="emptyDesc">
                 <constraints border-constraint="Center"/>
                 <properties>
+                  <dragEnabled value="false"/>
+                  <editable value="false"/>
+                  <enabled value="false"/>
+                  <focusCycleRoot value="false"/>
+                  <focusable value="false"/>
                   <maximumSize width="700" height="10"/>
                   <minimumSize width="300" height="20"/>
+                  <opaque value="false"/>
                   <preferredSize width="600" height="25"/>
+                  <requestFocusEnabled value="false"/>
                   <text value="Oops! Sorry, we didn't find any code to recommendate to you. Type another search."/>
                 </properties>
               </component>
