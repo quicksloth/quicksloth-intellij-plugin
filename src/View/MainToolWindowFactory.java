@@ -22,6 +22,7 @@ import com.intellij.ui.content.ContentFactory.SERVICE;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -198,7 +199,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             JPanel newPanel = getPanel(code);
 
             height += newPanel.getHeight();
-            System.out.println(height);
+//            System.out.println(height);
 
             width = Math.max(width, newPanel.getWidth());
 
@@ -275,16 +276,22 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private JPanel addCodeLines(Codes code, JPanel panel) {
         String[] codeLines = code.getCodeText().split("\n");
         int maxLineWidth = 0;
+//        panel.setLayout(new GridLayout(3, 1));
+//        panel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 
-        panel.setLayout(new GridLayout(2, 0));
-        panel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        panel.setAlignmentY(Component.TOP_ALIGNMENT);
 
         JCheckBox selectAllCB = new JCheckBox("Select all...");
         selectAllCB.setName(selectAllName);
+        selectAllCB.setBorder(new EmptyBorder(0, 0, 0, 0));
 
         JPanel codeCBs = new JPanel();
+        codeCBs.setName("checkboxes");
         codeCBs.setLayout(new GridLayout(codeLines.length, 0));
         codeCBs.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+        codeCBs.setBorder(new EmptyBorder(0, 8, 0, 0));
 
         for (String line : codeLines) {
             JCheckBox newCB = new JCheckBox();
@@ -303,11 +310,15 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             }
         });
 
+        int width = getCodeWidth(code, maxLineWidth);
+        int codeHeight = (codeLines.length * 21);
+        int height = 58 + codeHeight;
+
+        System.out.println(height);
+        codeCBs.setSize(width, codeHeight);
+
         panel.add(selectAllCB);
         panel.add(codeCBs);
-
-        int width = getCodeWidth(code, maxLineWidth);
-        int height = 42 + (codeLines.length * 21);
 
         panel.setSize(width, height);
         return panel;
@@ -340,16 +351,20 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     @NotNull
     private String getSelectedCode() {
         String code = "";
-//       TODO: arrumar aqui
         for (Component component : this.codesArea.getComponents()) {
             if (component instanceof JPanel) {
                 for (Component childComponents : ((JPanel) component).getComponents()) {
-                    if (childComponents instanceof JCheckBox) {
-                        JCheckBox checkBox = ((JCheckBox) childComponents);
-                        if (checkBox.isSelected()) {
-                            code += (checkBox.getText() + "\n");
+                    if (childComponents instanceof JPanel) {
+                        for (Component cbComponents : ((JPanel) childComponents).getComponents()) {
+                            if (cbComponents instanceof JCheckBox) {
+                                JCheckBox checkBox = ((JCheckBox) cbComponents);
+                                if (checkBox.isSelected()) {
+                                    code += (checkBox.getText() + "\n");
+                                }
+                            }
                         }
                     }
+
                 }
             }
         }
