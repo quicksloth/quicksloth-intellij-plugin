@@ -12,6 +12,7 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.JBColor;
@@ -193,7 +194,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         int height = 0;
         int width = 10;
 
-        for (Codes code: resultCodes.getCodes()) {
+        for (Codes code : resultCodes.getCodes()) {
             JPanel newPanel = getPanel(code);
 
             height += newPanel.getHeight();
@@ -202,7 +203,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             width = Math.max(width, newPanel.getWidth());
 
             newPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-            for (Component component: newPanel.getComponents()) {
+            for (Component component : newPanel.getComponents()) {
                 if (component instanceof JCheckBox) {
                     ((JCheckBox) component).setAlignmentX(Component.LEFT_ALIGNMENT);
                 }
@@ -259,8 +260,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
                     } catch (IOException ex) {
                         showGenericErrorDialog();
                     }
-                }
-                catch (URISyntaxException ex) {
+                } catch (URISyntaxException ex) {
                     showGenericErrorDialog();
                 }
             }
@@ -273,7 +273,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     private JPanel addCodeLines(Codes code, JPanel panel) {
-        String[] codeLines = code. getCodeText().split("\n");
+        String[] codeLines = code.getCodeText().split("\n");
         int maxLineWidth = 0;
 
         panel.setLayout(new GridLayout(codeLines.length + 1, 0));
@@ -283,12 +283,13 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         selectAll.setLayout(new GridLayout(codeLines.length + 1, 0));
         selectAll.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 
-        JCheckBox selectAllCB  = new JCheckBox("Select all...");
+        JCheckBox selectAllCB = new JCheckBox("Select all...");
         selectAllCB.setName(selectAllName);
+        selectAll.add(selectAllCB);
 
-        JPanel codeCBs  = new JPanel();
+        JPanel codeCBs = new JPanel();
 
-        for (String line: codeLines) {
+        for (String line : codeLines) {
             JCheckBox newCB = new JCheckBox();
             newCB.setLabel(line);
             newCB.setActionCommand(line);
@@ -305,8 +306,8 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             }
         });
 
-        selectAll.add(selectAll);
-        panel.add(codeCBs);
+        selectAll.add(codeCBs);
+        panel.add(selectAll);
 
         int width = getCodeWidth(code, maxLineWidth);
         int height = 42 + (codeLines.length * 21);
@@ -320,7 +321,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     private int getCodeWidth(Codes code, int maxLinesWidth) {
-       return Math.max(this.getLinesWidth(code.getSourceLink()), maxLinesWidth);
+        return Math.max(this.getLinesWidth(code.getSourceLink()), maxLinesWidth);
     }
 
     private void insertSelectedCode(Project project) {
@@ -343,9 +344,9 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private String getSelectedCode() {
         String code = "";
 //       TODO: arrumar aqui
-        for (Component component: this.codesArea.getComponents()) {
+        for (Component component : this.codesArea.getComponents()) {
             if (component instanceof JPanel) {
-                for (Component childComponents: ((JPanel) component).getComponents()) {
+                for (Component childComponents : ((JPanel) component).getComponents()) {
                     if (childComponents instanceof JCheckBox) {
                         JCheckBox checkBox = ((JCheckBox) childComponents);
                         if (checkBox.isSelected()) {
@@ -372,12 +373,23 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
                     document.insertString(cursorOffset, code);
                 }
             }.execute();
-        } catch(Exception e) {
+        } catch (Exception e) {
             this.showGenericErrorDialog();
         }
     }
 
     public void showGenericErrorDialog() {
-        Messages.showErrorDialog("Some unexpected error occurred, press OK and try again later", "Error");
+        try {
+            new WriteCommandAction(ProjectManager.getInstance().getDefaultProject()) {
+                @Override
+                protected void run(@NotNull Result result) throws Throwable {
+                    Messages.showErrorDialog("Some unexpected error occurred, press OK and try again later", "Error");
+                    cancelPerfomed();
+                }
+            }.execute();
+        } catch (Exception e) {
+            System.out.print(e);
+            cancelPerfomed();
+        }
     }
 }
