@@ -283,7 +283,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         selectAllCB.setName(selectAllName);
 
         JPanel codeCBs = new JPanel();
-        codeCBs.setLayout(new GridLayout(codeLines.length + 1, 0));
+        codeCBs.setLayout(new GridLayout(codeLines.length, 0));
         codeCBs.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 
         for (String line : codeLines) {
@@ -303,7 +303,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             }
         });
 
-//        panel.add(selectAllCB);
+        panel.add(selectAllCB);
         panel.add(codeCBs);
 
         int width = getCodeWidth(code, maxLineWidth);
