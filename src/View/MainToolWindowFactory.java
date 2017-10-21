@@ -40,6 +40,8 @@ import java.util.Objects;
 public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindowFactory {
 
     static public String ID = "QuickSloth";
+    static public String selectAllName = "selectAll";
+
     private NetworkService networkService;
 
     private JPanel root;
@@ -56,6 +58,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private JScrollPane scroll;
     private JPanel resultButtons;
     private JPanel codesArea;
+    private JPanel searchPanel;
     private ToolWindow myToolWindow;
 
     public MainToolWindowFactory() {
@@ -276,14 +279,34 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         panel.setLayout(new GridLayout(codeLines.length + 1, 0));
         panel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 
+        JPanel selectAll = new JPanel();
+        selectAll.setLayout(new GridLayout(codeLines.length + 1, 0));
+        selectAll.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+
+        JCheckBox selectAllCB  = new JCheckBox("Select all...");
+        selectAllCB.setName(selectAllName);
+
+        JPanel codeCBs  = new JPanel();
+
         for (String line: codeLines) {
             JCheckBox newCB = new JCheckBox();
             newCB.setLabel(line);
             newCB.setActionCommand(line);
             newCB.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-            panel.add(newCB);
+            codeCBs.add(newCB);
             maxLineWidth = Math.max(maxLineWidth, this.getLinesWidth(line));
         }
+
+        selectAllCB.addActionListener((e) -> {
+            for (Component component: codeCBs.getComponents()) {
+                if (component instanceof JCheckBox) {
+                    ((JCheckBox) component).setSelected(selectAllCB.isSelected());
+                }
+            }
+        });
+
+        selectAll.add(selectAll);
+        panel.add(codeCBs);
 
         int width = getCodeWidth(code, maxLineWidth);
         int height = 42 + (codeLines.length * 21);
@@ -319,6 +342,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     @NotNull
     private String getSelectedCode() {
         String code = "";
+//       TODO: arrumar aqui
         for (Component component: this.codesArea.getComponents()) {
             if (component instanceof JPanel) {
                 for (Component childComponents: ((JPanel) component).getComponents()) {
