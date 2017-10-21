@@ -172,19 +172,26 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         try {
             if (resultCodes.getCodes().size() > 0) {
                 createResultsUI(resultCodes);
-            } else {
-
             }
         } catch (Exception e) {
             this.showGenericErrorDialog();
         }
 
         stopLoading();
+        showEmptyResult();
         return true;
     }
 
     private void showEmptyResult () {
-        
+//        JLabel icon = new JLabel();
+//        icon.setIcon(new ImageIcon("images/empty_result.png"));
+        JLabel desc = new JLabel();
+        desc.setText("Sad, we didn't found any result");
+//        mainContent.add(icon);
+        mainContent.add(desc);
+
+//        mainContent.revalidate();
+//        mainContent.repaint();
     }
 
     private void createResultsUI(RecommendedCodes resultCodes) {
@@ -223,7 +230,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         codesArea.setMaximumSize(new Dimension(width, height));
 
         resultsArea.setVisible(true);
-
         resultsArea.revalidate();
         resultsArea.repaint();
     }
