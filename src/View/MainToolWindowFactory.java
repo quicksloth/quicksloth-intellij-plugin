@@ -290,7 +290,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
         for (String line : codeLines) {
             JCheckBox newCB = new JCheckBox();
-            newCB.setLabel(line);
+            newCB.setLabel("<html> <pre class=\"lang-py\">" + line + "</pre></html>");
             newCB.setActionCommand(line);
             newCB.setAlignmentX(JComponent.LEFT_ALIGNMENT);
             codeCBs.add(newCB);
