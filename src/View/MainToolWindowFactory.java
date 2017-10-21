@@ -182,7 +182,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private void createResultsUI(RecommendedCodes resultCodes) {
         resultsArea.setBounds(mainContent.getBounds());
         resultsArea.setLayout(new BoxLayout(resultsArea, BoxLayout.Y_AXIS));
-        resultsArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+        resultsArea.setAlignmentX(Component.CENTER_ALIGNMENT);
         resultsArea.setAlignmentY(Component.TOP_ALIGNMENT);
 
         codesArea.setLayout(new BoxLayout(codesArea, BoxLayout.Y_AXIS));
@@ -276,8 +276,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private JPanel addCodeLines(Codes code, JPanel panel) {
         String[] codeLines = code.getCodeText().split("\n");
         int maxLineWidth = 0;
-//        panel.setLayout(new GridLayout(3, 1));
-//        panel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -312,7 +310,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
         int width = getCodeWidth(code, maxLineWidth);
         int codeHeight = (codeLines.length * 21);
-        int height = 58 + codeHeight;
+        int height = 56 + codeHeight;
 
         System.out.println(height);
         codeCBs.setSize(width, codeHeight);
