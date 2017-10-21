@@ -376,6 +376,10 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
                 }
             }
         }
+
+//      \r throws error to add in code file. Solved: replace \r for 
+        code = code.replaceAll("\r", "  ");
+
         return code;
     }
 
