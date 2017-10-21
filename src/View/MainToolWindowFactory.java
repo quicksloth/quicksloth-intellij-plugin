@@ -190,8 +190,8 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 //        mainContent.add(icon);
         mainContent.add(desc);
 
-//        mainContent.revalidate();
-//        mainContent.repaint();
+        mainContent.revalidate();
+        mainContent.repaint();
     }
 
     private void createResultsUI(RecommendedCodes resultCodes) {
@@ -323,7 +323,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         int codeHeight = (codeLines.length * 21);
         int height = 56 + codeHeight;
 
-        System.out.println(height);
         codeCBs.setSize(width, codeHeight);
 
         panel.add(selectAllCB);
