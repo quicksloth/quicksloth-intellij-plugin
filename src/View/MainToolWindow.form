@@ -109,10 +109,10 @@
                   <enabled value="false"/>
                   <focusCycleRoot value="false"/>
                   <focusable value="false"/>
-                  <maximumSize width="700" height="30"/>
-                  <minimumSize width="300" height="55"/>
+                  <maximumSize width="700" height="25"/>
+                  <minimumSize width="300" height="62"/>
                   <opaque value="false"/>
-                  <preferredSize width="300" height="60"/>
+                  <preferredSize width="300" height="62"/>
                   <requestFocusEnabled value="false"/>
                   <selectedTextColor color="-6379608"/>
                   <text value="The following results were found as recommendation, each one has one score. Select the desired code lines and click on the button to add these in your code or you clipboard"/>
