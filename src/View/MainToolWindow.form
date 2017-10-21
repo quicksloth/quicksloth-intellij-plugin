@@ -125,7 +125,7 @@
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints/>
                 <properties>
-                  <maximumSize width="500" height="40"/>
+                  <maximumSize width="500" height="36"/>
                   <minimumSize width="300" height="36"/>
                   <preferredSize width="300" height="36"/>
                 </properties>
