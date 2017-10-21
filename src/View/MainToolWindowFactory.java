@@ -61,6 +61,9 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private JPanel resultButtons;
     private JPanel codesArea;
     private JPanel searchPanel;
+    private JPanel emptyState;
+    private JLabel emptyIcon;
+    private JTextPane emptyDesc;
     private ToolWindow myToolWindow;
 
     public MainToolWindowFactory() {
@@ -183,15 +186,10 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     private void showEmptyResult () {
-//        JLabel icon = new JLabel();
-//        icon.setIcon(new ImageIcon("images/empty_result.png"));
-        JLabel desc = new JLabel();
-        desc.setText("Sad, we didn't found any result");
-//        mainContent.add(icon);
-        mainContent.add(desc);
-
-        mainContent.revalidate();
-        mainContent.repaint();
+        emptyDesc.setBackground(new Color(255, 255, 255, 0));
+        emptyState.setLayout(new BoxLayout(emptyState, BoxLayout.Y_AXIS));
+        emptyState.setAlignmentX(Component.CENTER_ALIGNMENT);
+        emptyState.setVisible(true);
     }
 
     private void createResultsUI(RecommendedCodes resultCodes) {
