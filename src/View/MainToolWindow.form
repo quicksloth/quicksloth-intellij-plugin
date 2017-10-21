@@ -115,7 +115,7 @@
                   <preferredSize width="300" height="62"/>
                   <requestFocusEnabled value="false"/>
                   <selectedTextColor color="-6379608"/>
-                  <text value="The following results were found as recommendation, each one has one score. Select the desired code lines and click on the button to add these in your code or you clipboard"/>
+                  <text value="The following results were found as recommendation for your search and code, each one has one score. Select the desired code lines and click on the button to add these in your code or copy to your clipboard"/>
                 </properties>
                 <clientProperties>
                   <JEditorPane.w3cLengthUnits class="java.lang.Boolean" value="true"/>
