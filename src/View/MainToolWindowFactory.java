@@ -276,18 +276,15 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         String[] codeLines = code.getCodeText().split("\n");
         int maxLineWidth = 0;
 
-        panel.setLayout(new GridLayout(codeLines.length + 1, 0));
+        panel.setLayout(new GridLayout(2, 0));
         panel.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-
-        JPanel selectAll = new JPanel();
-        selectAll.setLayout(new GridLayout(codeLines.length + 1, 0));
-        selectAll.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 
         JCheckBox selectAllCB = new JCheckBox("Select all...");
         selectAllCB.setName(selectAllName);
-        selectAll.add(selectAllCB);
 
         JPanel codeCBs = new JPanel();
+        codeCBs.setLayout(new GridLayout(codeLines.length + 1, 0));
+        codeCBs.setAlignmentX(JComponent.LEFT_ALIGNMENT);
 
         for (String line : codeLines) {
             JCheckBox newCB = new JCheckBox();
@@ -306,8 +303,8 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             }
         });
 
-        selectAll.add(codeCBs);
-        panel.add(selectAll);
+//        panel.add(selectAllCB);
+        panel.add(codeCBs);
 
         int width = getCodeWidth(code, maxLineWidth);
         int height = 42 + (codeLines.length * 21);
