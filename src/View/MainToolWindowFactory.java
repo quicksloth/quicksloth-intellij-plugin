@@ -170,13 +170,21 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
     public Boolean showResults(RecommendedCodes resultCodes) {
         try {
-            createResultsUI(resultCodes);
+            if (resultCodes.getCodes().size() > 0) {
+                createResultsUI(resultCodes);
+            } else {
+
+            }
         } catch (Exception e) {
             this.showGenericErrorDialog();
         }
 
         stopLoading();
         return true;
+    }
+
+    private void showEmptyResult () {
+        
     }
 
     private void createResultsUI(RecommendedCodes resultCodes) {
