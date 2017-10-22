@@ -16,18 +16,13 @@ public class ModernScrollPane extends JScrollPane {
 
     private static final long serialVersionUID = 8607734981506765935L;
 
-    private static final int SCROLL_BAR_ALPHA_ROLLOVER = 300;
+    private static final int SCROLL_BAR_ALPHA_ROLLOVER = 100;
     private static final int SCROLL_BAR_ALPHA = 50;
-    private static final int THUMB_SIZE = 8;
-    private static final int SB_SIZE = 10;
+    private static final int THUMB_SIZE = 7;
+    private static final int SB_SIZE = 7;
     private static final Color THUMB_COLOR = JBColor.BLACK;
 
     public ModernScrollPane(Component view) {
-        this(view, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
-    }
-
-    public ModernScrollPane(Component view, int vsbPolicy, int hsbPolicy) {
-
         setBorder(null);
 
         // Set ScrollBar UI
@@ -44,7 +39,7 @@ public class ModernScrollPane extends JScrollPane {
 
             @Override
             public void layoutContainer(Container parent) {
-                Rectangle availR = ((JScrollPane) parent).getBounds();
+                Rectangle availR = parent.getBounds();
                 availR.x = availR.y = 0;
 
                 // viewport
