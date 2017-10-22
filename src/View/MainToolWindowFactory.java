@@ -5,6 +5,7 @@ import Models.Codes;
 import Models.RecommendedCodes;
 import Models.RequestCode;
 import Network.NetworkService;
+import View.Components.ModernScrollPane;
 import View.Components.StripedProgressBarUI;
 import com.intellij.openapi.application.Result;
 import com.intellij.openapi.command.WriteCommandAction;
@@ -321,7 +322,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
         int width = getCodeWidth(code, maxLineWidth);
         int codeHeight = (codeLines.length * 21);
-        int height = 56 + codeHeight;
+        int height = 57 + codeHeight;
 
         codeCBs.setSize(width, codeHeight);
 
@@ -415,5 +416,10 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             System.out.print(e);
             cancelPerfomed();
         }
+    }
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+        scroll = new ModernScrollPane(codesArea);
     }
 }

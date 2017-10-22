@@ -150,7 +150,7 @@
                   </component>
                 </children>
               </grid>
-              <scrollpane id="1576f" binding="scroll">
+              <scrollpane id="1576f" binding="scroll" custom-create="true">
                 <constraints/>
                 <properties>
                   <autoscrolls value="false"/>
@@ -160,6 +160,7 @@
                   <horizontalScrollBarPolicy value="32"/>
                   <inheritsPopupMenu value="true"/>
                   <opaque value="false"/>
+                  <requestFocusEnabled value="false"/>
                   <verticalScrollBarPolicy value="22"/>
                   <wheelScrollingEnabled value="true"/>
                 </properties>
