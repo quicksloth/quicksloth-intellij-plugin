@@ -254,7 +254,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private JPanel addCodeUrl(Codes code, JPanel newPanel) {
         JLabel urlDesc = new JLabel();
         urlDesc.setEnabled(true);
-        urlDesc.setText("<html>Url: <a href=\"\">" + code.getSourceLink() + "</a></html>");
+        urlDesc.setText("<html>Url: <a href=\"\" color=\"grey\">" + code.getSourceLink() + "</a></html>");
         urlDesc.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         goToSourceLink(code, urlDesc);
