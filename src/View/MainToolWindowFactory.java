@@ -322,7 +322,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
         int width = getCodeWidth(code, maxLineWidth);
         int codeHeight = (codeLines.length * 21);
-        int height = 56 + codeHeight;
+        int height = 57 + codeHeight;
 
         codeCBs.setSize(width, codeHeight);
 

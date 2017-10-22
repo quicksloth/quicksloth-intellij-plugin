@@ -63,6 +63,7 @@ public class ModernScrollPane extends JScrollPane {
                 vsbR.y = availR.y;
                 if (vsb != null) {
                     vsb.setBounds(vsbR);
+                    vsb.setUnitIncrement(12);
                 }
 
                 // horizontal scroll bar
