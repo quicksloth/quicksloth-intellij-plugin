@@ -420,7 +420,6 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
         scroll = new ModernScrollPane(codesArea);
     }
 }
