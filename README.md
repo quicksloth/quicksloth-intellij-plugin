@@ -6,7 +6,7 @@ This plugin is a code recommendation system for Intellij IDEs based, such as Pyc
 ### How to use it:
 
 - Install Plugin by Intellij store or add manually after download 
-    (`git clone https://github.com/quicksloth/quicksloth-intellij-plugin.git`)
+    (`https://github.com/quicksloth/quicksloth-intellij-plugin/blob/master/plugin/quicksloth-intellij-plugin.zip`)
 - Use the shortcut (MACOS: `cmd + alt + k`; Windows or Linux: `ctrl + alt + k`)
 - Type the search inside the text field and use enter or click in `search`
 - After sucessfull search, select desired code lines and decide between insert in code or copy to clipboard
