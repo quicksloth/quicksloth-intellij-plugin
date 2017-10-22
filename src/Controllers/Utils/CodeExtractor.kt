@@ -22,7 +22,7 @@ class CodeExtractor {
         val languageName = psiFile.language.toString()
         val psiLanguageExtractor = PsiLanguageExtractor.getLanguageExtractor(languageName)
 
-        requestCode.language = psiLanguageExtractor?.languageName
+        requestCode.language = psiLanguageExtractor?.languageName ?: ""
         val extractor = psiLanguageExtractor?.extractor
 
         val fileType = psiFile.fileType

@@ -4,22 +4,35 @@
   <version>0.1</version>
   <vendor email="pamelapeixinho@outlook.com" url="https://github.com/quicksloth">QuickSloth</vendor>
 
-  <description><![CDATA[
-      Code recommendations based on out modular evaluation system.<br>
-    ]]></description>
+  <description>
+    <![CDATA[
+        <html>
+        <body>
+        Code recommendations - <a href="https://github.com/quicksloth">QuickSloth</a>.
+        </br>
+        Our code recommendatios is based in a modular evaluator system
+        How to use it:
+        <ol>
+            <li>Use the shortcut to make appear a dialog (Ctrl+Alt+K or Cmd+Alt+K) or open the toolwindow</li>
+            <li>Type the search inside the text field and use enter or click in search</li>
+            <li>After sucessfull search, select desired code lines and decide between insert in code or copy to clipboard</li>
+        </ol>
 
-  <!--<change-notes><![CDATA[-->
-      <!--Add change notes here.<br>-->
-      <!--<em>most HTML tags may be used</em>-->
-    <!--]]>-->
-  <!--</change-notes>-->
+        Observation: We use your current file to get some data and help in order to a better recommendation.
+
+        For more details see <a href="https://github.com/quicksloth">plugin page on GitHub</a>.
+        </body>
+        </html>
+        ]]>
+  </description>
 
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
   <idea-version since-build="141.0"/>
 
-  <!-- enable plugin in all products-->
-  <depends>com.intellij.modules.lang</depends>
-  <!--<depends>com.intellij.modules.python</depends>-->
+  <!-- Make plugin available to all IntelliJ IDEs
+       http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
+  <depends>com.intellij.modules.platform</depends>
+
 
   <extensions defaultExtensionNs="com.intellij">
     <toolWindow id="QuickSloth"
@@ -29,16 +42,6 @@
   </extensions>
 
   <actions>
-    <!--START TEMPORARY-->
-    <!--<action id="webSocket" class="Network.NetworkService" text="WebSocket"-->
-            <!--description="try to import and connect">-->
-      <!--<add-to-group group-id="ToolsMenu" anchor="first"/>-->
-    <!--</action>-->
-    <!--<action id="CodeExtraction" class="Controllers.Utils.CodeExtractorAction" text="CodeExtractor"-->
-            <!--description="try to import and connect">-->
-      <!--<add-to-group group-id="ToolsMenu" anchor="first"/>-->
-    <!--</action>-->
-    <!--END TEMPORARY-->
     <action id="CodeRecommendations" class="Controllers.MainActionController" text="Code Recommendations"
             description="recommending source codes by query - quicksloth">
       <add-to-group group-id="CodeMenu" anchor="first"/>
