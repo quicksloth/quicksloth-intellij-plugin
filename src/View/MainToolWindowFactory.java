@@ -254,7 +254,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private JPanel addCodeUrl(Codes code, JPanel newPanel) {
         JLabel urlDesc = new JLabel();
         urlDesc.setEnabled(true);
-        urlDesc.setText("<html>Url: <a href=\"\">" + code.getSourceLink() + "</a></html>");
+        urlDesc.setText("<html>Url: <a href=\"\" color=\"LightGray\">" + code.getSourceLink() + "</a></html>");
         urlDesc.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         goToSourceLink(code, urlDesc);
@@ -293,7 +293,8 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         panel.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.setAlignmentY(Component.TOP_ALIGNMENT);
 
-        JCheckBox selectAllCB = new JCheckBox("Select all...");
+        JCheckBox selectAllCB = new JCheckBox("SELECT ALL");
+        selectAllCB.setBorderPainted(true);
         selectAllCB.setName(selectAllName);
         selectAllCB.setBorder(new EmptyBorder(0, 0, 0, 0));
 
