@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by PamelaPeixinho on 26/03/17.
@@ -183,7 +184,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             }
             long endTime   = System.currentTimeMillis();
             long totalTime = endTime - startTime;
-            System.out.println("TOTAL TIME = " + totalTime);
+            System.out.println("TOTAL TIME = " + TimeUnit.MILLISECONDS.toSeconds(totalTime) + "s");
         } catch (Exception e) {
             this.showGenericErrorDialog();
         }
