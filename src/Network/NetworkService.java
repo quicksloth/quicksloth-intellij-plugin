@@ -7,6 +7,8 @@ import com.google.gson.Gson;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * NetworkService is responsible to do
  * connection (websocket) with recommendation server
@@ -15,6 +17,7 @@ public class NetworkService {
 
     private Socket socket;
     private String status;
+    private long startTime;
 
     static String connectedStatus = "CONNECTED";
     static String disconnectedStatus = "DISCONNECTED";
@@ -33,13 +36,29 @@ public class NetworkService {
             Socket finalSocket = this.socket;
             socket.on(Socket.EVENT_CONNECT, args13 -> {
                 System.out.println("CONECTADO");
+                cancelTimeout(errorFunction);
                 if (status.equals(disconnectedStatus)) {
+                    status = connectedStatus;
+                    startTime = System.currentTimeMillis();
                     System.out.println("GOING TO REQUEST");
                     Gson gson = new Gson();
                     Object request = gson.toJson(requestCode);
                     finalSocket.emit("getCodes", request);
                 }
+            }).on(Socket.EVENT_CONNECT_TIMEOUT, args -> {
+                System.out.println("TIMEOUT SOCKET");
+                errorFunction.run();
+            }).on(Socket.EVENT_CONNECT_ERROR, args -> {
+                System.out.println("EVENT_CONNECT_ERROR SOCKET");
+                errorFunction.run();
+            }).on(Socket.EVENT_RECONNECT_FAILED, args -> {
+                System.out.println("EVENT_RECONNECT_FAILED SOCKET");
+                errorFunction.run();
+            }).on(Socket.EVENT_RECONNECT_ERROR, args -> {
+                System.out.println("EVENT_RECONNECT_ERROR SOCKET");
+                errorFunction.run();
             }).on(Socket.EVENT_DISCONNECT, args12 -> {
+                cancelTimeout(errorFunction);
                 System.out.println("DISCONNECT SOCKET");
             }).on("recommendationCodes", args -> {
                 System.out.println("receive call recommendationCodes");
@@ -55,13 +74,26 @@ public class NetworkService {
             socket.connect();
         } catch (Exception e1) {
             e1.printStackTrace();
-            errorFunction.run();
+            cancelEventDisconnecting(errorFunction);
+        }
+    }
+
+    private void cancelTimeout(Runnable function) {
+        long endTime = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        if (TimeUnit.MILLISECONDS.toSeconds(totalTime) >= 20) {
+            function.run();
         }
     }
 
     public void cancelEventDisconnecting(Runnable function) {
         status = disconnectedStatus;
-        socket.disconnect();
+
+        if (socket != null) {
+            socket.disconnect();
+        }
+
+        socket = null;
         function.run();
     }
 }

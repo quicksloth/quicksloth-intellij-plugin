@@ -414,8 +414,8 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             new WriteCommandAction(ProjectManager.getInstance().getDefaultProject()) {
                 @Override
                 protected void run(@NotNull Result result) throws Throwable {
-                    Messages.showErrorDialog("Some unexpected error occurred, press OK and try again later", "Error");
                     cancelPerfomed();
+                    Messages.showErrorDialog("Some unexpected error occurred, press OK and try again later", "Error");
                 }
             }.execute();
         } catch (Exception e) {
