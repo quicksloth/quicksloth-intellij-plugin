@@ -13,9 +13,14 @@ import io.socket.client.Socket;
  */
 public class NetworkService {
 
-    public Socket socket;
+    private Socket socket;
+    private String status;
+
+    static String connectedStatus = "CONNECTED";
+    static String disconnectedStatus = "DISCONNECTED";
 
     public NetworkService() {
+        status = disconnectedStatus;
     }
 
     public void getCodeRecommendation(RequestCode requestCode,
@@ -23,17 +28,21 @@ public class NetworkService {
                                       Runnable errorFunction) {
         System.out.println("GOING TO CONNECT");
         try {
-            this.socket = IO.socket("http://0.0.0.0:10443/code-recommendations");
+            this.socket = IO.socket("http://apollo.gwachs.com:10443/code-recommendations");
             Socket finalSocket = this.socket;
             socket.on(Socket.EVENT_CONNECT, args13 -> {
                 System.out.println("CONECTADO");
-                Gson gson = new Gson();
-                Object request = gson.toJson(requestCode);
-                finalSocket.emit("getCodes", request);
+                if (status.equals(disconnectedStatus)) {
+                    System.out.println("GOING TO REQUEST");
+                    Gson gson = new Gson();
+                    Object request = gson.toJson(requestCode);
+                    finalSocket.emit("getCodes", request);
+                }
             }).on(Socket.EVENT_DISCONNECT, args12 -> {
                 System.out.println("DISCONNECT SOCKET");
             }).on("recommendationCodes", args -> {
                 System.out.println("receive call recommendationCodes");
+                status = disconnectedStatus;
                 System.out.println((String) args[0]);
                 Gson gson = new Gson();
                 RecommendedCodes resultCodes  = gson.fromJson((String) args[0], RecommendedCodes.class);
@@ -50,6 +59,7 @@ public class NetworkService {
     }
 
     public void cancelEventDisconnecting(Runnable function) {
+        status = disconnectedStatus;
         socket.disconnect();
         function.run();
     }
