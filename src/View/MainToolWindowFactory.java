@@ -45,6 +45,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     static public String ID = "QuickSloth";
     static public String selectAllName = "selectAll";
 
+    private long startTime;
     private NetworkService networkService;
 
     private JPanel root;
@@ -151,7 +152,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
     public void searchPerformed(Project project) {
         try {
-
+            startTime = System.currentTimeMillis();
             System.out.println("queryField " + queryField.getText());
             this.startLoading();
 
@@ -180,6 +181,9 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             } else {
                 showEmptyResult();
             }
+            long endTime   = System.currentTimeMillis();
+            long totalTime = endTime - startTime;
+            System.out.println("TOTAL TIME = " + totalTime);
         } catch (Exception e) {
             this.showGenericErrorDialog();
         }
