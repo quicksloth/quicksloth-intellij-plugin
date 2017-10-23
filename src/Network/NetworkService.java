@@ -35,6 +35,7 @@ public class NetworkService {
                 System.out.println("CONECTADO");
                 if (status.equals(disconnectedStatus)) {
                     System.out.println("GOING TO REQUEST");
+                    status = connectedStatus;
                     Gson gson = new Gson();
                     Object request = gson.toJson(requestCode);
                     finalSocket.emit("getCodes", request);
