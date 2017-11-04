@@ -23,7 +23,8 @@ public class ModernScrollPane extends JScrollPane {
     private static final Color THUMB_COLOR = JBColor.BLACK;
 
     public ModernScrollPane(Component view) {
-        setBorder(null);
+//        setBorder(null);
+        setBorder(BorderFactory.createEmptyBorder());
 
         // Set ScrollBar UI
         JScrollBar verticalScrollBar = getVerticalScrollBar();
