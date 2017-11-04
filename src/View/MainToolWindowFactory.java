@@ -35,6 +35,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -385,7 +386,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         }
 
 //      \r throws error to add in code file. Solved: replace \r for 
-        code = code.replaceAll("\r", "  ");
+        code = code.replaceAll("\r", "    ");
 
         return code;
     }
@@ -401,7 +402,18 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             new WriteCommandAction(project) {
                 @Override
                 protected void run(@NotNull Result result) throws Throwable {
-                    document.insertString(cursorOffset, code);
+
+                    String emptyString = "    ";
+                    String newCode = "";
+                    int caretCount = 0;
+
+                    for (String codeLine: code.split("\n")) {
+                        String space = String.join("", Collections.nCopies(caretCount, emptyString));
+                        newCode += space + codeLine + "\n";
+                        caretCount = editor.getCaretModel().getCaretCount();
+                    }
+
+                    document.insertString(cursorOffset, newCode);
                 }
             }.execute();
         } catch (Exception e) {
