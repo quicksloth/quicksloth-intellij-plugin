@@ -35,6 +35,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -287,7 +288,17 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     }
 
     private JPanel setupResultPanel(Codes code, JPanel newPanel) {
-        newPanel.setBorder(new TitledBorder("Code Score: " + (code.getScore() * 100) + "%"));
+        float score = code.getScore() * 100;
+        double round = Math.floor(score);
+
+        if ((score - round) > 0) {
+            newPanel.setBorder(new TitledBorder("Code Score: " +
+                    String.format("%.1f", score) + "%"));
+        } else {
+            DecimalFormat dcf = new DecimalFormat ("##");
+            newPanel.setBorder(new TitledBorder("Code Score: " + dcf.format(round) + "%"));
+        }
+
         return newPanel;
     }
 
