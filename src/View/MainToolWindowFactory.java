@@ -403,14 +403,18 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
                 @Override
                 protected void run(@NotNull Result result) throws Throwable {
 
-                    String emptyString = "    ";
+                    String emptyString = " ";
                     String newCode = "";
                     int caretCount = 0;
 
                     for (String codeLine: code.split("\n")) {
-                        String space = String.join("", Collections.nCopies(caretCount, emptyString));
+                        String space = "";
+
+                        if (caretCount > 0)
+                            space = String.join("", Collections.nCopies(caretCount, emptyString));
+
                         newCode += space + codeLine + "\n";
-                        caretCount = editor.getCaretModel().getCaretCount();
+                        caretCount = editor.getCaretModel().getCurrentCaret().getLogicalPosition().column;
                     }
 
                     document.insertString(cursorOffset, newCode);
