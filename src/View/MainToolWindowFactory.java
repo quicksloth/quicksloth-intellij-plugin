@@ -217,8 +217,8 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         explain.setAlignmentX(Component.CENTER_ALIGNMENT);
         resultButtons.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        String explainTextBase = "The following results were found as recommendation for your search and code," +
-                "each one has one score. Select the desired code lines and click on the button to add these" +
+        String explainTextBase = "The following results were found as recommendation for your search and code, " +
+                "each one has one score. Select the desired code lines and click on the button to add these " +
                 "in your code or copy to your clipboard";
         explain.setText(explainTextBase + " (" + totalSeconds + " segundos)");
 
