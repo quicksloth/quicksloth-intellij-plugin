@@ -16,6 +16,16 @@ This plugin is a code recommendation system for Intellij IDEs based, such as Pyc
 #### Run project
 Just clone this repo and open in Intellij, build as `Intellij Plugin`
 
+#### Some settings
+
+- Project
+
+- Modules
+
+- Libraries
+
+
+
 #### Contribute
 Create a branch from master and make a PR for us. Also, fell free to open an issue
 
