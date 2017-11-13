@@ -180,13 +180,15 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     public Boolean showResults(RecommendedCodes resultCodes) {
         try {
             if (resultCodes.getCodes().size() > 0) {
-                createResultsUI(resultCodes);
+                long endTime   = System.currentTimeMillis();
+                long totalTime = endTime - startTime;
+                long totalSeconds = TimeUnit.MILLISECONDS.toSeconds(totalTime);
+                System.out.println("TOTAL TIME = " +  totalSeconds  + "s");
+                createResultsUI(resultCodes, totalSeconds);
             } else {
                 showEmptyResult();
             }
-            long endTime   = System.currentTimeMillis();
-            long totalTime = endTime - startTime;
-            System.out.println("TOTAL TIME = " + TimeUnit.MILLISECONDS.toSeconds(totalTime) + "s");
+
         } catch (Exception e) {
             this.showGenericErrorDialog();
         }
@@ -202,7 +204,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         emptyState.setVisible(true);
     }
 
-    private void createResultsUI(RecommendedCodes resultCodes) {
+    private void createResultsUI(RecommendedCodes resultCodes, long totalSeconds) {
         resultsArea.setBounds(mainContent.getBounds());
         resultsArea.setLayout(new BoxLayout(resultsArea, BoxLayout.Y_AXIS));
         resultsArea.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -214,6 +216,11 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
         explain.setAlignmentX(Component.CENTER_ALIGNMENT);
         resultButtons.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        String explainTextBase = "The following results were found as recommendation for your search and code," +
+                "each one has one score. Select the desired code lines and click on the button to add these" +
+                "in your code or copy to your clipboard";
+        explain.setText(explainTextBase + " (" + totalSeconds + " segundos)");
 
         int height = 0;
         int width = 10;
@@ -396,7 +403,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             }
         }
 
-//      \r throws error to add in code file. Solved: replace \r for 
+//      \r throws error to add in code file. Solved: replace \r for 4 spaces
         code = code.replaceAll("\r", "    ");
 
         return code;
