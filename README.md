@@ -19,12 +19,14 @@ Just clone this repo and open in Intellij, build as `Intellij Plugin`
 #### Some settings
 
 - Project
+![Settings Project](https://github.com/quicksloth/quicksloth-intellij-plugin/blob/master/plugin/Settings/project.png)
 
 - Modules
+![Settings Modules](https://github.com/quicksloth/quicksloth-intellij-plugin/blob/master/plugin/Settings/modules.png)
 
 - Libraries
 
-
+![Settings Libs](https://github.com/quicksloth/quicksloth-intellij-plugin/blob/master/plugin/Settings/libs.png)
 
 #### Contribute
 Create a branch from master and make a PR for us. Also, fell free to open an issue
