@@ -28,8 +28,8 @@ public class NetworkService {
                                       Runnable errorFunction) {
         System.out.println("GOING TO CONNECT");
         try {
-            this.socket = IO.socket("http://0.0.0.0:10443/code-recommendations");
-//            this.socket = IO.socket("https://quickslothrecommendationserver.herokuapp.com/code-recommendations");
+//            this.socket = IO.socket("http://0.0.0.0:10443/code-recommendations");
+            this.socket = IO.socket("https://quickslothrecommendationserver.herokuapp.com/code-recommendations");
             Socket finalSocket = this.socket;
             socket.on(Socket.EVENT_CONNECT, args13 -> {
                 System.out.println("CONECTADO");
