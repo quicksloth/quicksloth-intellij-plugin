@@ -369,6 +369,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
     private void insertSelectedCode(Project project) {
         String code = getSelectedCode();
         insertCodeInFile(project, code);
+        unselectCode();
     }
 
     private void copySelectedCodeToClipboard() {
@@ -377,6 +378,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
             StringSelection stringSelection = new StringSelection(code);
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(stringSelection, null);
+            unselectCode();
         } catch (Exception e) {
             this.showGenericErrorDialog();
         }
@@ -407,6 +409,26 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
         code = code.replaceAll("\r", "    ");
 
         return code;
+    }
+
+    private void unselectCode() {
+        for (Component component : this.codesArea.getComponents()) {
+            if (component instanceof JPanel) {
+                for (Component childComponents : ((JPanel) component).getComponents()) {
+                    if (childComponents instanceof JPanel) {
+                        for (Component cbComponents : ((JPanel) childComponents).getComponents()) {
+                            if (cbComponents instanceof JCheckBox) {
+                                JCheckBox checkBox = ((JCheckBox) cbComponents);
+                                checkBox.setSelected(false);
+                            }
+                        }
+                    } else if (childComponents instanceof JCheckBox) {
+                            JCheckBox checkBox = ((JCheckBox) childComponents);
+                            checkBox.setSelected(false);
+                    }
+                }
+            }
+        }
     }
 
     private void insertCodeInFile(final Project project, String code) {
