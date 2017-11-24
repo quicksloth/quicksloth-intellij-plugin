@@ -20,11 +20,14 @@ import com.intellij.ui.JBColor;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import com.intellij.ui.content.ContentFactory.SERVICE;
+import com.intellij.util.ui.JBUI;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -199,6 +202,14 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
     private void showEmptyResult () {
         emptyDesc.setBackground(new Color(255, 255, 255, 0));
+        emptyDesc.setMargin(JBUI.insets(16, 24, 0, 24));
+        emptyDesc.setText("Oops! \n Sorry, we didn't find any recommended code to you." +
+                " Type another search or try later.");
+
+        SimpleAttributeSet attribs = new SimpleAttributeSet();
+        StyleConstants.setAlignment(attribs, StyleConstants.ALIGN_CENTER);
+        emptyDesc.setParagraphAttributes(attribs, true);
+
         emptyState.setLayout(new GridLayout(2, 1));
         emptyState.setAlignmentX(Component.CENTER_ALIGNMENT);
         emptyState.setVisible(true);

@@ -115,7 +115,7 @@
                   <preferredSize width="300" height="62"/>
                   <requestFocusEnabled value="false"/>
                   <selectedTextColor color="-6379608"/>
-                  <text value="The following results were found as recommendation for your search and code, each one has one score. Select the desired code lines and click on the button to add these in your code or copy to your clipboard"/>
+                  <text value="The following results were found as recommendation for your search based in your code context, each one has a code score that means relevance for you. Select the desired code lines and click on the button to add these in your code or copy to your clipboard"/>
                 </properties>
                 <clientProperties>
                   <JEditorPane.w3cLengthUnits class="java.lang.Boolean" value="true"/>
@@ -215,19 +215,21 @@
                 </properties>
               </component>
               <component id="c98b2" class="javax.swing.JTextPane" binding="emptyDesc">
-                <constraints border-constraint="Center"/>
+                <constraints border-constraint="Before"/>
                 <properties>
+                  <contentType value="text/plain"/>
                   <dragEnabled value="false"/>
                   <editable value="false"/>
                   <enabled value="false"/>
                   <focusCycleRoot value="false"/>
                   <focusable value="false"/>
+                  <font/>
                   <maximumSize width="700" height="10"/>
                   <minimumSize width="300" height="20"/>
                   <opaque value="false"/>
                   <preferredSize width="600" height="25"/>
                   <requestFocusEnabled value="false"/>
-                  <text value="Oops! Sorry, we didn't find any code to recommendate to you. Type another search."/>
+                  <text value=""/>
                 </properties>
               </component>
             </children>
