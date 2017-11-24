@@ -227,7 +227,7 @@
                   <opaque value="false"/>
                   <preferredSize width="600" height="25"/>
                   <requestFocusEnabled value="false"/>
-                  <text value="Oops! Sorry, we didn't find any code to recommendate to you. Type another search."/>
+                  <text value="Oops! Sorry, we didn't find any recommended code to you. Type another search or try later."/>
                 </properties>
               </component>
             </children>

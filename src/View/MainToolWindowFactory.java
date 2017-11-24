@@ -20,6 +20,7 @@ import com.intellij.ui.JBColor;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import com.intellij.ui.content.ContentFactory.SERVICE;
+import com.intellij.util.ui.JBUI;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -199,6 +200,7 @@ public class MainToolWindowFactory implements com.intellij.openapi.wm.ToolWindow
 
     private void showEmptyResult () {
         emptyDesc.setBackground(new Color(255, 255, 255, 0));
+        emptyDesc.setMargin(JBUI.insets(0, 8));
         emptyState.setLayout(new GridLayout(2, 1));
         emptyState.setAlignmentX(Component.CENTER_ALIGNMENT);
         emptyState.setVisible(true);
