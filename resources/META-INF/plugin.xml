@@ -1,27 +1,49 @@
 <idea-plugin version="2">
-  <id>com.br.quicksloth.code.recommendation</id>
+  <id>com.br.quicksloth</id>
   <name>QuickSloth</name>
-  <version>0.1</version>
-  <vendor email="pamelapeixinho@outlook.com" url="https://github.com/quicksloth">QuickSloth</vendor>
+  <version>1.0-beta.1</version>
+  <vendor email="pameiupip@gmail.com" url="https://github.com/quicksloth">QuickSloth</vendor>
 
   <description>
     <![CDATA[
         <html>
         <body>
-        Code recommendations - <a href="https://github.com/quicksloth">QuickSloth</a>.
+        <h4> QuickSloth </h4>
         </br>
-        Our code recommendatios is based in a modular evaluator system
         </br>
-        How to use it:
+        <div>
+            <a href="https://github.com/quicksloth/quicksloth-intellij-plugin">GitHub</a> |
+            <a href="https://github.com/quicksloth/quicksloth-intellij-plugin/issues">Issues</a>
+        </div>
+        </br>
+        </br>
+        <div>
+            <b>QuickSloth</b> is a plugin for code recommendations based in a modular evaluator system. By now, we only support <i>Python</i> recommendations.
+        </div>
+        </br>
+        </br>
+        <b>Features</b>:
+           <ol>
+              <li>Use user current file to get some code context</li>
+              <li>Insert in Code or Copy to Clipboard the recommendation</li>
+              <li>Recommendations sorted by relevance for user</li>
+          </ol>
+        </br>
+        </br>
+        <b>How to use it</b>:
         <ol>
-            <li>Use the shortcut to make appear a dialog (Ctrl+Alt+K or Cmd+Alt+K) or open the toolwindow</li>
-            <li>Type the search inside the text field and use enter or click in search</li>
-            <li>After sucessfull search, select desired code lines and decide between insert in code or copy to clipboard</li>
+            <li>Use the shortcut to initiate (Ctrl+Alt+K or Cmd+Alt+K), it'll appear a dialog waiting for the search</li>
+            <li>Type the search inside the text field (like: 'read file') and use enter or click in search</li>
+            <li>After successful search, select desired code lines and decide between insert in code or copy to clipboard</li>
         </ol>
         </br>
-        Observation: We use your current file to get some data and help in order to a better recommendation.
         </br>
-        For more details see <a href="https://github.com/quicksloth">plugin page on GitHub</a>.
+        <i>Warning: We use your current file to get some data (comments and libs) and help in order to a better recommendation</i>
+        </br>
+        </br>
+        </br>
+        <div> For more details see <a href="https://github.com/quicksloth">Plugin organization on GitHub</a> or talk
+        with us in our <a href="https://gitter.im/quicksloth/QuickSlothPlugin?utm_source=share-link&utm_medium=link&utm_campaign=share-link">chat</a> </div>
         </body>
         </html>
         ]]>
