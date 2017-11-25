@@ -1,8 +1,8 @@
 <idea-plugin version="2">
   <id>com.br.quicksloth</id>
   <name>QuickSloth</name>
-  <version>1.0-beta.1</version>
-  <vendor email="pameiupip@gmail.com" url="https://github.com/quicksloth">QuickSloth</vendor>
+  <version>1.0-beta.2</version>
+  <vendor email="quicksloth.plugin@gmail.com" url="https://github.com/quicksloth">QuickSloth</vendor>
 
   <description>
     <![CDATA[
