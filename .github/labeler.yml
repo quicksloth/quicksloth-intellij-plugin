@@ -1,0 +1,4 @@
+numLabels: 40
+
+excludeLabels:
+  - pinned
