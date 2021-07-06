@@ -7,6 +7,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.wm.ToolWindowAnchor
 import com.intellij.openapi.wm.ToolWindowManager
+import javax.swing.ImageIcon
 
 /**
  * Created by pamelaiupipeixinho on 16/09/17.
@@ -14,10 +15,11 @@ import com.intellij.openapi.wm.ToolWindowManager
 class MainActionController : AnAction() {
     override fun actionPerformed(event: AnActionEvent) {
         val project = event.project?: return
+        val icon = ImageIcon("/resources/images/quickslothlogo-v2.1.png")
         val queryText = Messages.showInputDialog(project,
                 "What do you want to search?",
                 "Input Your Query",
-                Messages.getQuestionIcon())
+                icon)
 
         if (queryText != null) {
             showProcessingToolWindow(project, queryText)
